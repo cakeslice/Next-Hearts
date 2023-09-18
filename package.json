@@ -11,6 +11,9 @@
 		"build-docker": "docker build -t nextjs-docker ."
 	},
 	"dependencies": {
+		"@dnd-kit/core": "^6.0.8",
+		"@dnd-kit/modifiers": "^6.0.1",
+		"@formkit/auto-animate": "^0.8.0",
 		"@heroicons/react": "^2.0.18",
 		"@nextui-org/react": "^2.1.13",
 		"@uidotdev/usehooks": "^2.2.0",
@@ -18,7 +21,9 @@
 		"framer-motion": "^10.16.4",
 		"next": "^13.2.3",
 		"next-themes": "^0.2.1",
+		"node-cache": "^5.1.2",
 		"react": "18.2.0",
+		"react-copy-to-clipboard": "^5.1.0",
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.46.1",
 		"react-hydration-provider": "^2.0.0",
@@ -26,6 +31,7 @@
 		"socket.io": "^4.7.2",
 		"socket.io-client": "^4.7.2",
 		"swr": "^2.2.2",
+		"unique-names-generator": "^4.7.1",
 		"uuid": "^9.0.0",
 		"zod": "^3.19.1"
 	},
@@ -37,6 +43,7 @@
 	"devDependencies": {
 		"@types/node": "20.5.9",
 		"@types/react": "18.2.21",
+		"@types/react-copy-to-clipboard": "^5.0.4",
 		"@types/react-dom": "18.2.7",
 		"@types/uuid": "^9.0.3",
 		"@types/ws": "^8.5.5",

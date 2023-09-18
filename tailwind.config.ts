@@ -1,6 +1,15 @@
 import { nextui } from '@nextui-org/react'
 import { Config } from 'tailwindcss'
 
+const colors = {
+	primary: {
+		100: 'rgba(130, 201, 30,.5)',
+		DEFAULT: 'rgba(130, 201, 30)',
+		foreground: 'white',
+	},
+	focus: 'rgba(130, 201, 30)',
+}
+
 export const breakpoints = {
 	mobile: { max: '639px' },
 	desktop: { min: '639px' },
@@ -20,14 +29,11 @@ export const config: Config = {
 	plugins: [
 		nextui({
 			themes: {
+				light: {
+					colors: colors,
+				},
 				dark: {
-					colors: {
-						primary: {
-							DEFAULT: '#BEF264',
-							foreground: '#000000',
-						},
-						focus: '#BEF264',
-					},
+					colors: colors,
 				},
 			},
 		}),
