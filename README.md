@@ -1,4 +1,4 @@
-## Next-Hearts
+## ❤️ Next-Hearts ❤️
 
 ![image](https://github.com/cakeslice/Next-Hearts/assets/7516142/31dee436-e565-4cb7-99c9-d540ebec1755)
 
