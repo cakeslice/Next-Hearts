@@ -5,13 +5,7 @@ import clsx from 'clsx'
 import { cardsList } from 'models/card'
 import styles from './PageWrapper.module.scss'
 
-export default function PageWrapper({
-	children,
-	style,
-}: {
-	children: React.ReactNode
-	style?: React.CSSProperties
-}) {
+export default function PageWrapper({ children }: { children: React.ReactNode }) {
 	return (
 		<div
 			className={clsx(
