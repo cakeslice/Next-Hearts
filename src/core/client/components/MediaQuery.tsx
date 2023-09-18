@@ -1,0 +1,28 @@
+import { useMediaQuery } from 'react-responsive'
+
+import { breakpoints } from '../../../../tailwind.config'
+
+type BreakpointKey = keyof typeof breakpoints
+
+/** Only works in the client. Needs to be wrapped with <Client/> to check for hydration */
+export function useBreakpoint(breakpointKey: BreakpointKey) {
+	const breakpointValue = breakpoints?.[breakpointKey as BreakpointKey]
+	const matches = useMediaQuery({
+		// @ts-ignore
+		...(breakpointValue?.max && {
+			// @ts-ignore
+			query: `(max-width: ${breakpointValue?.max})`,
+		}),
+		// @ts-ignore
+		...(breakpointValue?.min && {
+			// @ts-ignore
+			query: `(min-width: ${breakpointValue?.min})`,
+		}),
+	})
+	return matches
+}
+
+/** Works on the server too. Only hides the children, should only be used in simple scenarios */
+export const Desktop = ({ children }: { children: React.ReactNode }) => (
+	<div className='desktop:contents mobile:hidden'>{children}</div>
+)
