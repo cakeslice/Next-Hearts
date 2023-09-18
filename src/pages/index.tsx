@@ -11,17 +11,17 @@ import {
 	useSensors,
 } from '@dnd-kit/core'
 import { snapCenterToCursor } from '@dnd-kit/modifiers'
-import clsx from 'clsx'
 import PageWrapper from 'components/PageWrapper'
 import PlayingCard from 'components/PlayingCard'
 import { request, useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'
 import { Body as GameBody, Response as GameResponse, QueryParams } from 'pages/api/game'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { CardArea } from 'components/CardArea'
 import { Body as PlayCardBody, Response as PlayCardResponse } from './api/play-card'
 
+import clsx from 'clsx'
 import { useJoinRoom } from 'components/JoinRoom'
 import { useScoreboard } from 'components/Scoreboard'
 import { WaitingForPlayers } from 'components/WaitingForPlayers'
@@ -31,7 +31,6 @@ import { Card } from 'models/card'
 import { PlayCardClient, PlayCardServer, applyPlayedCard, isValidMove } from 'models/game'
 import {
 	PlayerPosition,
-	getCenteredHand,
 	getNextPlayer,
 	getPlayerID,
 	getPlayerWithHighestCard,
@@ -39,12 +38,17 @@ import {
 } from 'models/player'
 import { Client } from 'react-hydration-provider'
 import { playSound } from 'utils/client'
-import { maxCardsHandRowMobile } from 'utils/consts'
-import styles from './index.module.scss'
+import { getCardSize, handCardVisibleRatio, maxCardsHandRowMobile } from 'utils/consts'
+import styles from './index.module.css'
 
 const localPlayerArea = 'player_1_area'
 
 export type Animation = 'get-cards'
+
+const getCenteredHand = (amount: number, isMobile: boolean) => {
+	const s = handCardVisibleRatio * getCardSize(!isMobile)
+	return `${(amount * s) / 2}dvh - ${s}dvh`
+}
 
 const Game: NextPage = () => {
 	const playerID = useMemo(() => getPlayerID(), [])
@@ -189,25 +193,16 @@ const Game: NextPage = () => {
 		[data, localPlayer, draggingCard, interactive]
 	)
 
-	const playerHandStyleDesktop = useMemo(
-		() => ({
-			left: getCenteredHand(localPlayer?.hand.length || 0, false),
-		}),
+	const handOffsetDesktop = useMemo(
+		() => getCenteredHand(localPlayer?.hand.length || 0, false),
 		[localPlayer?.hand.length]
 	)
-	const playerHandStyleTopRowMobile = useMemo(
-		() => ({
-			left: getCenteredHand(
-				Math.min(maxCardsHandRowMobile, localPlayer?.hand.length || 0),
-				true
-			),
-		}),
+	const handContainerTopOffsetMobile = useMemo(
+		() => getCenteredHand(Math.min(maxCardsHandRowMobile, localPlayer?.hand.length || 0), true),
 		[localPlayer?.hand.length]
 	)
-	const playerHandStyleBottomRowMobile = useMemo(
-		() => ({
-			left: getCenteredHand((localPlayer?.hand.length || 0) - maxCardsHandRowMobile, true),
-		}),
+	const handContainerBottomOffsetMobile = useMemo(
+		() => getCenteredHand((localPlayer?.hand.length || 0) - maxCardsHandRowMobile, true),
 		[localPlayer?.hand.length]
 	)
 
@@ -249,16 +244,6 @@ const Game: NextPage = () => {
 		[data, animation, getPosition]
 	)
 
-	const containerStyle: React.CSSProperties = useMemo(
-		() => ({
-			userSelect: 'none',
-			...(!interactive && {
-				pointerEvents: 'none',
-			}),
-		}),
-		[interactive]
-	)
-
 	const [scoreboard, showScoreboard] = useScoreboard({
 		players,
 		gameOver: !!data?.gameOver,
@@ -286,7 +271,7 @@ const Game: NextPage = () => {
 			{scoreboard()}
 			{joinRoom()}
 			<WaitingForPlayers roomID={query?.room} players={players} />
-			<div style={containerStyle}>
+			<div className={`select-none${!interactive ? ' pointer-events-none' : ''}`}>
 				<DndContext
 					collisionDetection={pointerWithin}
 					sensors={sensors}
@@ -321,7 +306,14 @@ const Game: NextPage = () => {
 					/>
 					<Client>
 						{desktop ? (
-							<div className={styles.HandContainer} style={playerHandStyleDesktop}>
+							<div
+								className={styles.HandContainer}
+								style={
+									{
+										'--hand-container-offset': handOffsetDesktop,
+									} as React.CSSProperties
+								}
+							>
 								{localPlayer?.hand.map((card) => renderHandCard(card))}
 							</div>
 						) : (
@@ -331,7 +323,11 @@ const Game: NextPage = () => {
 										styles.HandContainer,
 										styles.HandContainerTopRow
 									)}
-									style={playerHandStyleTopRowMobile}
+									style={
+										{
+											'--hand-container-offset': handContainerTopOffsetMobile,
+										} as React.CSSProperties
+									}
 								>
 									{localPlayer?.hand
 										?.slice(0, maxCardsHandRowMobile)
@@ -342,7 +338,12 @@ const Game: NextPage = () => {
 										styles.HandContainer,
 										styles.HandContainerBottomRow
 									)}
-									style={playerHandStyleBottomRowMobile}
+									style={
+										{
+											'--hand-container-offset':
+												handContainerBottomOffsetMobile,
+										} as React.CSSProperties
+									}
 								>
 									{localPlayer?.hand
 										?.slice(maxCardsHandRowMobile)

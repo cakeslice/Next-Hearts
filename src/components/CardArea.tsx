@@ -7,7 +7,7 @@ import { useBreakpoint } from 'core/client/components/MediaQuery'
 import { Player, PlayerPosition } from 'models/player'
 import { Client } from 'react-hydration-provider'
 import { getCardSize, highlightColorBright, playedCardSizeRatio } from 'utils/consts'
-import styles from './CardArea.module.scss'
+import styles from './CardArea.module.css'
 
 type Props = {
 	id?: string
@@ -78,9 +78,9 @@ export function CardArea({ animation, animateToPosition, position, id, player }:
 		(desktop: boolean) => {
 			const baseStyle: React.CSSProperties = {
 				position: 'fixed',
-				...getOffset(desktop, position),
 				transition:
 					'opacity 250ms ease, transform 500ms ease, top 250ms ease, left 250ms ease',
+				...getOffset(desktop, position),
 			}
 
 			const staticStyle: React.CSSProperties = {
@@ -134,27 +134,22 @@ export function CardArea({ animation, animateToPosition, position, id, player }:
 		[player?.isPlaying, gotCards]
 	)
 
-	const staticElements = (
-		<>
-			<div className={styles.NameContainer}>
-				<p className='text-md truncate font-medium' style={nameStyle}>
-					{player?.name}
-				</p>
-			</div>
-			<div ref={setNodeRef}>
-				<PlayingCard isPlaying={player?.isPlaying} isPlayed />
-			</div>
-		</>
-	)
-	const animatedElements = (
-		<>{player?.playedCard && <PlayingCard id={player?.playedCard} isPlayed />}</>
-	)
-
 	return (
 		<Client>
 			<div>
-				<div style={staticStyle}>{staticElements}</div>
-				<div style={animatedStyle}>{animatedElements}</div>
+				<div style={staticStyle}>
+					<div className={styles.NameContainer}>
+						<p className='text-md truncate font-medium' style={nameStyle}>
+							{player?.name}
+						</p>
+					</div>
+					<div ref={setNodeRef}>
+						<PlayingCard isPlaying={player?.isPlaying} isPlayed />
+					</div>
+				</div>
+				<div style={animatedStyle}>
+					{player?.playedCard && <PlayingCard id={player?.playedCard} isPlayed />}
+				</div>
 			</div>
 		</Client>
 	)

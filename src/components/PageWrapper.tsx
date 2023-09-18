@@ -1,6 +1,8 @@
 import { description, title } from 'config'
 import Head from 'next/head'
-import { backgroundColor, backgroundImage } from 'utils/consts'
+
+import clsx from 'clsx'
+import styles from './PageWrapper.module.css'
 
 export default function PageWrapper({
 	children,
@@ -11,15 +13,10 @@ export default function PageWrapper({
 }) {
 	return (
 		<div
-			style={{
-				width: '100dvw',
-				height: '100dvh',
-				overflow: 'hidden',
-				backgroundColor: backgroundColor,
-				backgroundSize: '5rem',
-				backgroundImage: backgroundImage,
-			}}
-			className='flex justify-center w-full'
+			className={clsx(
+				styles.Background,
+				'h-[100dvh] w-[100dvw] overflow-hidden flex justify-center'
+			)}
 		>
 			<Head>
 				<title>{title}</title>
@@ -30,10 +27,7 @@ export default function PageWrapper({
 				/>
 			</Head>
 
-			<div
-				className='flex justify-center items-center'
-				style={{ maxWidth: 1200, width: '90%', margin: '5%' }}
-			>
+			<div className={clsx(styles.Container, 'flex justify-center items-center')}>
 				{children}
 			</div>
 		</div>

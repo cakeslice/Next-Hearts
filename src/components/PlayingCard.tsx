@@ -1,6 +1,6 @@
 import { useDraggable } from '@dnd-kit/core'
 import Image from 'next/image'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { Card } from 'models/card'
 import {
@@ -14,7 +14,7 @@ import transparentCard from '../../public/assets/cards/transparent.svg'
 
 import { useBreakpoint } from 'core/client/components/MediaQuery'
 import { Client } from 'react-hydration-provider'
-import styles from './PlayingCard.module.scss'
+import styles from './PlayingCard.module.css'
 
 type Props = {
 	id?: Card | 'back' | 'transparent'
@@ -63,16 +63,16 @@ export default function PlayingCard({
 		[isDisabled, isPlayed]
 	)
 
-	const getContainerStyle = useCallback(
-		(size: number): React.CSSProperties => ({
+	const containerStyle = useMemo(
+		(): React.CSSProperties => ({
 			width: 'fit-content',
 			display: 'relative',
+			transition: 'transform 100ms ease, border-color 100ms ease',
+			zIndex: 1,
 			...(isInHand && {
 				width: size * handCardVisibleRatio + 'dvh',
 				minWidth: size * handCardVisibleRatio + 'dvh',
 			}),
-			transition: 'transform 100ms ease, border-color 100ms ease',
-			zIndex: 1,
 			...(!id && {
 				opacity: isPlaying ? 0.5 : 0.25,
 				border: `2px solid ${
@@ -82,35 +82,23 @@ export default function PlayingCard({
 				borderRadius: 6,
 			}),
 		}),
-		[isInHand, id, isPlaying]
+		[isInHand, id, isPlaying, size]
 	)
 
-	const getImageStyle = useCallback(
-		(size: number): React.CSSProperties => {
-			const highlighted = (!isDisabled && isPlaying) || isHovering
-			return {
-				transition:
-					'top 100ms ease, opacity 100ms ease, border-color 100ms ease, min-width 100ms ease',
-				position: 'relative',
-				pointerEvents: 'none',
-				minWidth: size + 'dvh',
-				background: highlighted
-					? `rgba(${highlightColorBright}, .75)`
-					: 'rgba(255, 255, 255, .75)',
-				borderRadius: 6,
-				border: `2px solid transparent`,
-				opacity: !id ? 0 : 1,
-				boxShadow:
-					(!isDisabled && isPlaying) || isHovering
-						? `0 20px 32px -8px rgba(${highlightColorBright}, .25), 0 4px 8px 0 rgba(${highlightColorBright}, .25), 0 6px 20px 0 rgba(${highlightColorBright}, .25)`
-						: '0 20px 32px -8px rgba(0, 0, 0, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)',
-			}
-		},
-		[isHovering, id, isPlaying, isDisabled]
-	)
-
-	const containerStyle = getContainerStyle(size)
-	const imageStyle = getImageStyle(size)
+	const imageStyle = useMemo((): React.CSSProperties => {
+		const highlighted = (!isDisabled && isPlaying) || isHovering
+		return {
+			minWidth: size + 'dvh',
+			background: highlighted
+				? `rgba(${highlightColorBright}, .75)`
+				: 'rgba(255, 255, 255, .75)',
+			opacity: !id ? 0 : 1,
+			boxShadow:
+				(!isDisabled && isPlaying) || isHovering
+					? `0 20px 32px -8px rgba(${highlightColorBright}, .25), 0 4px 8px 0 rgba(${highlightColorBright}, .25), 0 6px 20px 0 rgba(${highlightColorBright}, .25)`
+					: '0 20px 32px -8px rgba(0, 0, 0, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1)',
+		}
+	}, [isHovering, id, isPlaying, isDisabled, size])
 
 	return (
 		<Client>

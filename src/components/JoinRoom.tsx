@@ -2,9 +2,10 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import styles from './JoinRoom.module.scss'
+import styles from './JoinRoom.module.css'
 
 import { Button, Input, Modal, ModalContent, Spacer } from '@nextui-org/react'
+import clsx from 'clsx'
 import { title } from 'config'
 import { request } from 'core/client/api'
 import { Body, Response } from 'pages/api/join-game'
@@ -14,36 +15,18 @@ import card1 from '../../public/assets/cards/queen_of_spades.svg'
 import { ModalWrapper } from './ModalContent'
 
 const Logo = () => {
-	const size = 80
 	return (
 		<div className='flex'>
-			<div
-				style={{
-					width: 20,
-				}}
-			>
+			<div className='w-[20px]'>
 				<Image
-					className={styles.Card1}
-					style={{
-						minWidth: size,
-						width: size,
-						boxShadow:
-							'0 20px 32px -8px rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05)',
-					}}
+					className={clsx(styles.LogoShadow, styles.Card1, `min-w-[80px] w-[80px]`)}
 					alt='Card'
 					src={card1}
 				/>
 			</div>
 
 			<Image
-				className={styles.Card2}
-				style={{
-					width: size,
-					position: 'relative',
-					left: 10,
-					boxShadow:
-						'0 20px 32px -8px rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05)',
-				}}
+				className={clsx(styles.LogoShadow, styles.Card2, `w-[80px] left-[10px] relative`)}
 				alt='Card'
 				src={card2}
 			/>

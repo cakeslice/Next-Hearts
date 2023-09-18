@@ -27,12 +27,9 @@ export const WaitingForPlayers = ({ players, roomID }: { players: Player[]; room
 							<Card key={p.publicID} shadow='lg'>
 								<div className='px-4 py-2 flex justify-between items-center'>
 									<h4
-										className={`truncate font-bold ${
+										className={`m-w-[150px] truncate font-bold ${
 											p.isLocal ? 'text-primary' : 'text-gray-500'
 										}`}
-										style={{
-											maxWidth: 150,
-										}}
 									>
 										{p.name}
 									</h4>

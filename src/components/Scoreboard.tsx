@@ -98,10 +98,7 @@ export const useScoreboard = ({
 									<Card className={bg} key={p.publicID} shadow='lg'>
 										<div className='px-4 py-2 flex justify-between items-center'>
 											<h4
-												className={`truncate font-bold ${color}`}
-												style={{
-													maxWidth: 150,
-												}}
+												className={`truncate font-bold ${color} max-w-[150px]`}
 											>
 												{p.name}
 											</h4>

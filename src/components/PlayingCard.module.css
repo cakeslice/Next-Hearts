@@ -1,0 +1,15 @@
+.Container:hover {
+	transform: translateY(-2dvh);
+}
+
+.Image {
+	transition:
+		top 100ms ease,
+		opacity 100ms ease,
+		border-color 100ms ease,
+		min-width 100ms ease;
+	position: relative;
+	pointer-events: none;
+	border-radius: 6;
+	border: 2px solid transparent;
+}

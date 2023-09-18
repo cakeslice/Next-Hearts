@@ -1,4 +1,3 @@
-import { getCardSize, handCardVisibleRatio } from 'utils/consts'
 import { v1 } from 'uuid'
 import { Card, sortCards } from './card'
 
@@ -61,9 +60,4 @@ export const getPlayerID = () => {
 	} catch {
 		return newPlayerID
 	}
-}
-
-export const getCenteredHand = (amount: number, isMobile: boolean) => {
-	const s = handCardVisibleRatio * getCardSize(!isMobile)
-	return `calc(50% - ${(amount * s) / 2}dvh - ${s}dvh)`
 }

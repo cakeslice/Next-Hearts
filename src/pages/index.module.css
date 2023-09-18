@@ -5,7 +5,9 @@
 		left 250ms ease,
 		bottom 250ms ease;
 	bottom: -10.5dvh;
+	left: calc(50% - var(--hand-container-offset));
 }
+
 .HandContainerTopRow {
 	bottom: -3.5dvh;
 }
