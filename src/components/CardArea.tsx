@@ -7,7 +7,7 @@ import { useBreakpoint } from 'core/client/components/MediaQuery'
 import { Player, PlayerPosition } from 'models/player'
 import { Client } from 'react-hydration-provider'
 import { getCardSize, highlightColorBright, playedCardSizeRatio } from 'utils/consts'
-import styles from './CardArea.module.css'
+import styles from './CardArea.module.scss'
 
 type Props = {
 	id?: string

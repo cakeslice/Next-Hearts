@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import styles from './JoinRoom.module.css'
+import styles from './JoinRoom.module.scss'
 
 import { Button, Input, Modal, ModalContent, Spacer } from '@nextui-org/react'
 import clsx from 'clsx'

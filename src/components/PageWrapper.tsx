@@ -2,7 +2,7 @@ import { description, title } from 'config'
 import Head from 'next/head'
 
 import clsx from 'clsx'
-import styles from './PageWrapper.module.css'
+import styles from './PageWrapper.module.scss'
 
 export default function PageWrapper({
 	children,

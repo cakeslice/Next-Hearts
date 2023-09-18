@@ -39,7 +39,7 @@ import {
 import { Client } from 'react-hydration-provider'
 import { playSound } from 'utils/client'
 import { getCardSize, handCardVisibleRatio, maxCardsHandRowMobile } from 'utils/consts'
-import styles from './index.module.css'
+import styles from './index.module.scss'
 
 const localPlayerArea = 'player_1_area'
 
