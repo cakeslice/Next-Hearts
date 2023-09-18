@@ -1,0 +1,12 @@
+/* ! NOTE: Always use "font-display: swap;" in font-face declarations */
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700&display=swap");
+
+/* 
+@font-face {
+	font-family: 'CorporateA';
+	font-style: normal;
+	font-weight: 400;
+	src: url('./fonts/CorporateALight.otf') format('opentype');
+	font-display: swap;
+}
+*/

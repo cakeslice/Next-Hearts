@@ -1,0 +1,51 @@
+{
+	"name": "nextjs-template",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev -p 4000",
+		"build": "next build",
+		"start": "next start -p 4000",
+		"export": "next build && next export",
+		"lint": "next lint",
+		"build-docker": "docker build -t nextjs-docker ."
+	},
+	"dependencies": {
+		"@heroicons/react": "^2.0.18",
+		"@nextui-org/react": "^2.1.13",
+		"@uidotdev/usehooks": "^2.2.0",
+		"clsx": "^2.0.0",
+		"framer-motion": "^10.16.4",
+		"next": "^13.2.3",
+		"next-themes": "^0.2.1",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-hook-form": "^7.46.1",
+		"react-hydration-provider": "^2.0.0",
+		"react-responsive": "^9.0.0",
+		"socket.io": "^4.7.2",
+		"socket.io-client": "^4.7.2",
+		"swr": "^2.2.2",
+		"uuid": "^9.0.0",
+		"zod": "^3.19.1"
+	},
+	"overrides": {
+		"next": {
+			"@swc/helpers": "0.4.36"
+		}
+	},
+	"devDependencies": {
+		"@types/node": "20.5.9",
+		"@types/react": "18.2.21",
+		"@types/react-dom": "18.2.7",
+		"@types/uuid": "^9.0.3",
+		"@types/ws": "^8.5.5",
+		"autoprefixer": "^10.4.8",
+		"eslint": "^8.47.0",
+		"eslint-config-next": "13.4.19",
+		"postcss": "^8.4.16",
+		"prettier": "^3.0.3",
+		"tailwindcss": "^3.1.8",
+		"typescript": "^5.1.6"
+	}
+}
