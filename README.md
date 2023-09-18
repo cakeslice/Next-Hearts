@@ -4,4 +4,4 @@
 
 Open-source multiplayer Hearts card game made with Next.js
 
-NOTE: Cannot be deployed to Vercel since it uses websockets
+**Warning**: Cannot be deployed to Vercel since it uses websockets
