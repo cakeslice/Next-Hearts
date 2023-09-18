@@ -11,8 +11,8 @@ const colors = {
 }
 
 export const breakpoints = {
-	mobile: { max: '639px' },
-	desktop: { min: '639px' },
+	mobile: { max: '800px' },
+	desktop: { min: '800px' },
 }
 
 export const config: Config = {

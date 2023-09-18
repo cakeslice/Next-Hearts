@@ -16,6 +16,8 @@ import { useBreakpoint } from 'core/client/components/MediaQuery'
 import { Client } from 'react-hydration-provider'
 import styles from './PlayingCard.module.css'
 
+const cardImageRatio = 78 / 113
+
 type Props = {
 	id?: Card | 'back' | 'transparent'
 	isInHand?: boolean
@@ -113,9 +115,9 @@ export default function PlayingCard({
 					{(!isDragging || isDisabled) && (
 						<Image
 							width={size}
-							height={size}
-							className={styles.Image}
+							height={size / cardImageRatio}
 							style={imageStyle}
+							className={styles.Image}
 							alt='Card'
 							src={id ? `/assets/cards/${id}.svg` : transparentCard}
 						/>
