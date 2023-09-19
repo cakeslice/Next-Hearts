@@ -5,3 +5,4 @@ Includes:
 - Next-UI
 - React Hook Form
 - Socket.IO
+- SWR
