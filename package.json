@@ -8,7 +8,8 @@
 		"start": "next start -p 4000",
 		"export": "next build && next export",
 		"lint": "next lint",
-		"build-docker": "docker build -t nextjs-docker ."
+		"deploy-docker": "env-cmd npm run deploy-docker-script",
+		"deploy-docker-script": "cross-env-shell docker image build -t $DOCKER_IMAGE . && cross-env-shell docker push $DOCKER_IMAGE"
 	},
 	"dependencies": {
 		"@heroicons/react": "^2.0.18",
@@ -41,6 +42,8 @@
 		"@types/uuid": "^9.0.3",
 		"@types/ws": "^8.5.5",
 		"autoprefixer": "^10.4.8",
+		"cross-env": "^7.0.3",
+		"env-cmd": "^10.1.0",
 		"eslint": "^8.47.0",
 		"eslint-config-next": "13.4.19",
 		"postcss": "^8.4.16",
