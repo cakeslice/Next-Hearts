@@ -22,7 +22,12 @@ export function useBreakpoint(breakpointKey: BreakpointKey) {
 	return matches
 }
 
-/** Works on the server too. Only hides the children, should only be used in simple scenarios */
+/** Works on the server and client. Only hides the children, should only be used in simple scenarios */
 export const Desktop = ({ children }: { children: React.ReactNode }) => (
 	<div className='desktop:contents mobile:hidden'>{children}</div>
+)
+
+/** Works on the server and client. Only hides the children, should only be used in simple scenarios */
+export const Mobile = ({ children }: { children: React.ReactNode }) => (
+	<div className='mobile:contents desktop:hidden'>{children}</div>
 )
