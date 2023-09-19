@@ -1,6 +1,7 @@
 {
 	"extends": "next/core-web-vitals",
 	"rules": {
-		"react/self-closing-comp": "warn"
+		"react/self-closing-comp": "warn",
+		"no-restricted-globals": ["error", "location", "history", "event", "close"]
 	}
 }
