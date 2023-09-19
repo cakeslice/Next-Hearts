@@ -85,7 +85,7 @@ const ThemeToggle = () => {
 	)
 }
 
-const Home: NextPage = () => {
+const Dashboard: NextPage = () => {
 	const [filtersOpen, setFiltersOpen] = useState(false)
 
 	const { query } = useQueryParams<CompanyQuery>()
@@ -234,4 +234,4 @@ const Row = (props: { company: Company }) => {
 	)
 }
 
-export default Home
+export default Dashboard
