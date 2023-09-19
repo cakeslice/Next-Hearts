@@ -74,7 +74,7 @@ export const useJoinRoom = (
 							if (res?.roomID) {
 								router.push('/?room=' + res.roomID)
 								refetch()
-								close()
+								setIsOpened(false)
 							} else {
 								router.push('/')
 								setError(res?.error || 'Something went wrong')
