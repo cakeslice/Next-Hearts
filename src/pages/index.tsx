@@ -47,7 +47,9 @@ export type Animation = 'get-cards'
 
 const getCenteredHand = (amount: number, isMobile: boolean) => {
 	const s = handCardVisibleRatio * getCardSize(!isMobile)
-	return `${(amount * s) / 2}dvh - ${s}dvh`
+	return {
+		'--hand-container-offset': `${(amount * s) / 2}dvh - ${s}dvh`,
+	} as React.CSSProperties
 }
 
 const Game: NextPage = () => {
@@ -59,7 +61,8 @@ const Game: NextPage = () => {
 		query,
 		{ playerID },
 	])
-	const players = useMemo(() => data?.players || [], [data])
+	const players = useMemo(() => data?.players || [], [data?.players])
+	const localPlayer = useMemo(() => players.find((p) => p.isLocal), [players])
 
 	const playCard = async (body: PlayCardBody) => {
 		const [res, error] = await request<PlayCardResponse, QueryParams, PlayCardBody>({
@@ -71,6 +74,8 @@ const Game: NextPage = () => {
 
 		return res
 	}
+
+	//
 
 	const [socket] = useSocketChannel<PlayCardServer, PlayCardClient>({
 		connect: () => refetch(),
@@ -104,14 +109,9 @@ const Game: NextPage = () => {
 		},
 	})
 
-	//
-
 	const [animation, setAnimation] = useState<Animation>()
 	const [dragHoverArea, setDragHoverArea] = useState<string>()
 	const [draggingCard, setDraggingCard] = useState<Card>()
-
-	const getLocalPlayer = () => players.find((p) => p.isLocal)
-	const localPlayer = getLocalPlayer()
 
 	const interactive = useMemo(
 		() => localPlayer?.isPlaying && !animation,
@@ -143,7 +143,7 @@ const Game: NextPage = () => {
 				await refetch(
 					{
 						...data,
-						players: data?.players?.map((p) => {
+						players: players?.map((p) => {
 							if (!p.isLocal) return p
 
 							return applyPlayedCard(p, card)
@@ -254,7 +254,7 @@ const Game: NextPage = () => {
 		playerID,
 		() => refetch(),
 		query?.room,
-		!!data?.players
+		players?.length !== 0
 	)
 	useEffect(() => {
 		const create = queryReady && !query?.room
@@ -306,14 +306,7 @@ const Game: NextPage = () => {
 					/>
 					<Client>
 						{desktop ? (
-							<div
-								className={styles.HandContainer}
-								style={
-									{
-										'--hand-container-offset': handOffsetDesktop,
-									} as React.CSSProperties
-								}
-							>
+							<div className={styles.HandContainer} style={handOffsetDesktop}>
 								{localPlayer?.hand.map((card) => renderHandCard(card))}
 							</div>
 						) : (
@@ -323,11 +316,7 @@ const Game: NextPage = () => {
 										styles.HandContainer,
 										styles.HandContainerTopRow
 									)}
-									style={
-										{
-											'--hand-container-offset': handContainerTopOffsetMobile,
-										} as React.CSSProperties
-									}
+									style={handContainerTopOffsetMobile}
 								>
 									{localPlayer?.hand
 										?.slice(0, maxCardsHandRowMobile)
@@ -338,12 +327,7 @@ const Game: NextPage = () => {
 										styles.HandContainer,
 										styles.HandContainerBottomRow
 									)}
-									style={
-										{
-											'--hand-container-offset':
-												handContainerBottomOffsetMobile,
-										} as React.CSSProperties
-									}
+									style={handContainerBottomOffsetMobile}
 								>
 									{localPlayer?.hand
 										?.slice(maxCardsHandRowMobile)
