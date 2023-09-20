@@ -249,6 +249,6 @@ export const nextTurn = (roomId: string) => {
 
 	saveRoom(room.uniqueLink, room)
 
-	socketBroadcast<PlayCardClient>('game-event', 'turn-start', room.uniqueLink)
 	socketBroadcast<PlayCardClient>('update-game', undefined, room.uniqueLink)
+	socketBroadcast<PlayCardClient>('game-event', 'turn-start', room.uniqueLink)
 }
