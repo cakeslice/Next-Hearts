@@ -30,6 +30,7 @@ import { useSocketChannel } from 'core/client/socket-io'
 import { Card } from 'models/card'
 import { PlayCardClient, PlayCardServer, applyPlayedCard, isValidMove } from 'models/game'
 import {
+	Player,
 	PlayerPosition,
 	getNextPlayer,
 	getPlayerID,
@@ -208,15 +209,22 @@ const Game: NextPage = () => {
 
 	const getPlayer = useCallback(
 		(position: PlayerPosition) => {
-			if (position === 'bottom') return localPlayer
+			let p: Player | undefined
+
+			if (position === 'bottom') p = localPlayer
 			if (position === 'left') {
-				return getPreviousPlayer(players, localPlayer)
+				p = getPreviousPlayer(players, localPlayer)
 			}
 			if (position === 'right') {
-				return getNextPlayer(players, localPlayer)
+				p = getNextPlayer(players, localPlayer)
 			}
 			if (position === 'top') {
-				return getNextPlayer(players, getNextPlayer(players, localPlayer))
+				p = getNextPlayer(players, getNextPlayer(players, localPlayer))
+			}
+
+			return {
+				position,
+				player: p,
 			}
 		},
 		[players, localPlayer]
@@ -266,6 +274,14 @@ const Game: NextPage = () => {
 
 	const desktop = useBreakpoint('desktop')
 
+	const animationData = useMemo(
+		() => ({
+			animation,
+			animateToPosition: nextPlayerPosition,
+		}),
+		[animation, nextPlayerPosition]
+	)
+
 	return (
 		<PageWrapper>
 			{scoreboard()}
@@ -279,30 +295,13 @@ const Game: NextPage = () => {
 					onDragEnd={handleDragEnd}
 					onDragOver={handleDragOver}
 				>
+					<CardArea animationData={animationData} playerData={getPlayer('top')} />
+					<CardArea animationData={animationData} playerData={getPlayer('left')} />
+					<CardArea animationData={animationData} playerData={getPlayer('right')} />
 					<CardArea
-						animateToPosition={nextPlayerPosition}
-						animation={animation}
-						player={getPlayer('top')}
-						position='top'
-					/>
-					<CardArea
-						animateToPosition={nextPlayerPosition}
-						animation={animation}
-						player={getPlayer('left')}
-						position='left'
-					/>
-					<CardArea
-						animateToPosition={nextPlayerPosition}
-						animation={animation}
-						player={getPlayer('right')}
-						position='right'
-					/>
-					<CardArea
-						animateToPosition={nextPlayerPosition}
-						animation={animation}
-						player={getPlayer('bottom')}
+						animationData={animationData}
+						playerData={getPlayer('bottom')}
 						id={localPlayerArea}
-						position='bottom'
 					/>
 					<Client>
 						{desktop ? (

@@ -57,6 +57,7 @@ export default function handler(
 				: {
 						...p,
 						// Don't send player ID or their cards to other players
+						id: '',
 						hand: [],
 				  }
 		),

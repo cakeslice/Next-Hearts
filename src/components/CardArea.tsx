@@ -11,10 +11,14 @@ import styles from './CardArea.module.scss'
 
 type Props = {
 	id?: string
-	player?: Player
-	position: PlayerPosition
-	animation?: Animation
-	animateToPosition?: PlayerPosition
+	playerData: {
+		player?: Player
+		position: PlayerPosition
+	}
+	animationData: {
+		animation?: Animation
+		animateToPosition?: PlayerPosition
+	}
 }
 
 const seatOffset = 25
@@ -26,7 +30,10 @@ const getRandomRotation = () => Math.random() * 10 * (Math.random() < 0.5 ? -1 :
 
 let queuedAnimation: NodeJS.Timeout | undefined
 
-export function CardArea({ animation, animateToPosition, position, id, player }: Props) {
+export function CardArea({ animationData, playerData, id }: Props) {
+	const { position, player } = playerData
+	const { animation, animateToPosition } = animationData
+
 	const { setNodeRef } = useDroppable({
 		id: id || position,
 	})
