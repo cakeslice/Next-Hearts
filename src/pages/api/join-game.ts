@@ -83,6 +83,11 @@ export default function handler(
 	} else {
 		room = addRoom()
 
+		if (!room) {
+			response = { error: 'Please try again' }
+			return res.status(400).send(response)
+		}
+
 		const success = addPlayer(req, room, playerID, name)
 		if (!success) return res.status(500).send()
 	}

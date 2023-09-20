@@ -1,5 +1,5 @@
 import NodeCache from 'node-cache'
-import { adjectives, animals, colors, names, uniqueNamesGenerator } from 'unique-names-generator'
+import { adjectives, animals, colors, uniqueNamesGenerator } from 'unique-names-generator'
 import { Card } from './card'
 import { Player } from './player'
 
@@ -23,12 +23,15 @@ declare global {
 if (!global.cache) global.cache = cache
 
 export const addRoom = (idOverride?: string) => {
+	const uniqueLink = uniqueNamesGenerator({
+		dictionaries: [adjectives, colors, animals],
+		separator: '-',
+	})
+
 	const room = {
 		players: [],
 		deck: [],
-		uniqueLink:
-			idOverride ||
-			uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals, names] }),
+		uniqueLink: idOverride || uniqueLink,
 		createdAt: new Date(),
 	}
 	if (global.cache && !global.cache.get(room.uniqueLink)) {
@@ -38,12 +41,13 @@ export const addRoom = (idOverride?: string) => {
 				console.log('Deleting room ' + room.uniqueLink)
 				global.cache?.del(room.uniqueLink)
 			},
+			// 1 hour
 			1000 * 60 * 60
 		)
-	}
-	return room
+		return room
+	} else return
 }
-addRoom('bewildered_apricot_dinosaur_Farand')
+
 export const getRoom = (uniqueLink: string) => {
 	return global.cache?.get<Room>(uniqueLink)
 }

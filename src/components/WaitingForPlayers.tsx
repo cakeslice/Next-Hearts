@@ -42,6 +42,7 @@ export const WaitingForPlayers = ({ players, roomID }: { players: Player[]; room
 
 					<Divider />
 
+					<p className='text-gray-500 text-sm font-semibold'>{roomID}</p>
 					<CopyToClipboard
 						text={typeof window !== 'undefined' ? window.location.href : ''}
 						onCopy={() => setCopied(true)}
