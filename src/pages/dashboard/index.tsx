@@ -6,16 +6,11 @@ import DashboardWrapper from 'components/dashboard/DashboardWrapper'
 import { request, useApi, useQueryParams } from 'core/client/api'
 import { Desktop, Mobile } from 'core/client/components/MediaQuery'
 import { useDark } from 'core/client/hooks'
+import { Company, allCategories, categoryStyle } from 'models/company'
 import type { NextPage } from 'next'
 import { useTheme } from 'next-themes'
 import { Body as AddDataBody } from 'pages/api/add-data'
-import {
-	Company,
-	QueryParams as CompanyQuery,
-	Response,
-	allCategories,
-	categoryStyle,
-} from 'pages/api/companies'
+import { Query as CompanyQuery, Response } from 'pages/api/companies'
 import { useEffect, useState } from 'react'
 import { Client } from 'react-hydration-provider'
 
@@ -50,7 +45,13 @@ const Filters = () => {
 							key={s}
 							checked={query.categories?.includes(s) || false}
 							onChange={(e) => {
-								let array = query.categories || []
+								// TODO: Maybe with zod?
+								// Otherwise we need to do Array.isArray everytime...
+								let array = Array.isArray(query.categories)
+									? query.categories
+									: query.categories
+									? [query.categories]
+									: []
 
 								if (e.currentTarget.checked) array.push(s)
 								else array = array.filter((e) => e !== s)
@@ -68,6 +69,7 @@ const Filters = () => {
 		</>
 	)
 }
+
 const ThemeToggle = () => {
 	const { dark } = useDark()
 	const { setTheme } = useTheme()

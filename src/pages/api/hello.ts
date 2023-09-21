@@ -2,24 +2,19 @@ import { NextApiRequestTyped } from 'core/server/types'
 import type { NextApiResponse } from 'next'
 import { z } from 'zod'
 
-const QueryParamsSchema = z.object({
+const QuerySchema = z.object({
 	search: z.optional(z.string()),
 })
-export type QueryParams = z.infer<typeof QueryParamsSchema>
+export type Query = z.infer<typeof QuerySchema>
 
-export type Response =
-	| {
-			hello: string
-	  }
-	| undefined
+export type Response = {
+	hello: string
+} | void
 
-export default function handler(
-	req: NextApiRequestTyped<QueryParams, undefined>,
-	res: NextApiResponse<Response>
-) {
+export default function handler(req: NextApiRequestTyped<Query>, res: NextApiResponse<Response>) {
 	const query = req.query
 
-	if (!QueryParamsSchema.parse(query)) return res.status(400).send(undefined)
+	if (!QuerySchema.parse(query)) return res.status(400).send()
 
 	const search = query.search
 
