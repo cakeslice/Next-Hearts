@@ -1,9 +1,8 @@
 import { useDebounce } from '@uidotdev/usehooks'
 import { socket } from 'core/client/socket-io'
-import { backendURL, isProd } from 'core/env'
-import { arrayPrefix, arraySeparator } from 'core/server/zod'
+import { backendURL } from 'core/env'
 import { useRouter } from 'next/router'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import useSWR from 'swr'
 
 class RequestError extends Error {
@@ -116,21 +115,20 @@ export function useApi<Response, QueryParams, Body extends object | undefined>(
 
 export function useQueryParams<T>() {
 	const router = useRouter()
-	const query = router.query
+	const query = router.query as T
 
 	const setQuery = useCallback(
 		(newQueryParams: T) => {
-			const objectParams = {
+			const params = {
 				...router.query,
 				...newQueryParams,
 			}
-			const queryParams: Record<string, string> = {}
-			Object.keys(objectParams).forEach((p) => {
-				const value = objectParams[p]
+
+			const queryParams: any = {}
+			Object.keys(params).forEach((p) => {
+				const value = params[p]
 				if (value === undefined || value === '') return
-				if (Array.isArray(value)) {
-					if (value.length > 0) queryParams[p] = arrayPrefix + value.join(arraySeparator)
-				} else queryParams[p] = value
+				queryParams[p] = value
 			})
 
 			if (router.isReady) {
@@ -144,33 +142,12 @@ export function useQueryParams<T>() {
 						shallow: true,
 					}
 				)
-
-				if (!isProd) console.log('Setting query: ' + JSON.stringify(queryParams, null, 2))
 			}
 		},
 		[router]
 	)
 
-	/* const getQueryString = useCallback(() => {
-		const searchParams = new URLSearchParams(query as any)
-
-		return searchParams.toString()
-	}, [query]) */
-
-	const objectParams = useMemo((): T => {
-		let output = {} as T
-
-		Object.keys(query).forEach((p) => {
-			const key = p as keyof T
-			const value = query[p] as string
-
-			if (value?.includes(arrayPrefix))
-				output[key] = value.replace(arrayPrefix, '').split(arraySeparator) as any
-			else output[key] = value as any
-		})
-
-		return output
-	}, [query])
-
-	return { queryReady: router.isReady, query: objectParams, setQuery /* getQueryString */ }
+	return { queryReady: router.isReady, query, setQuery }
 }
+
+export const getQueryString = (query: any) => new URLSearchParams(query).toString()
