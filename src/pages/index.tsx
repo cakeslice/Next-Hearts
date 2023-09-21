@@ -15,7 +15,7 @@ import PageWrapper from 'components/PageWrapper'
 import PlayingCard from 'components/PlayingCard'
 import { request, useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'
-import { Body as GameBody, Response as GameResponse, QueryParams } from 'pages/api/game'
+import { Body as GameBody, Response as GameResponse, Query } from 'pages/api/game'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { CardArea } from 'components/CardArea'
@@ -56,8 +56,8 @@ const getCenteredHand = (amount: number, isMobile: boolean) => {
 const Game: NextPage = () => {
 	const playerID = useMemo(() => getPlayerID(), [])
 
-	const { query, queryReady } = useQueryParams<QueryParams>()
-	const { data, refetch, error } = useApi<GameResponse, QueryParams, GameBody>([
+	const { query, queryReady } = useQueryParams<Query>()
+	const { data, refetch, error } = useApi<GameResponse, Query, GameBody>([
 		'game',
 		query,
 		{ playerID },
@@ -66,7 +66,7 @@ const Game: NextPage = () => {
 	const localPlayer = useMemo(() => players.find((p) => p.isLocal), [players])
 
 	const playCard = async (body: PlayCardBody) => {
-		const [res, error] = await request<PlayCardResponse, QueryParams, PlayCardBody>({
+		const [res, error] = await request<PlayCardResponse, Query, PlayCardBody>({
 			path: 'play-card',
 			query: query,
 			body: body,

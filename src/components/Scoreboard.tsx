@@ -2,7 +2,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Button, Card, Divider, Modal, ModalContent } from '@nextui-org/react'
 import { request } from 'core/client/api'
 import { Player } from 'models/player'
-import { QueryParams } from 'pages/api/new-game'
+import { Query } from 'pages/api/new-game'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { modalProps } from 'utils/consts'
 import { ModalWrapper } from './ModalContent'
@@ -117,7 +117,7 @@ export const useScoreboard = ({
 								isLoading={!newGameAvailable}
 								onClick={async () => {
 									if (roomID)
-										await request<Response, QueryParams, undefined>({
+										await request<Response, Query, undefined>({
 											path: '/new-game',
 											query: { room: roomID },
 										})

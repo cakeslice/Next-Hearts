@@ -7,10 +7,10 @@ import { getPlayer, getRoom, saveRoom } from 'models/room'
 import { NextApiResponse } from 'next'
 import { z } from 'zod'
 
-const QueryParamsSchema = z.object({
+const QuerySchema = z.object({
 	room: z.string(),
 })
-export type QueryParams = z.infer<typeof QueryParamsSchema>
+export type Query = z.infer<typeof QuerySchema>
 
 const BodySchema = z.object({
 	card: z.enum(cardsList),
@@ -21,14 +21,14 @@ export type Body = z.infer<typeof BodySchema>
 export type Response = {}
 
 export default async function handler(
-	req: NextApiRequestTyped<QueryParams, Body>,
+	req: NextApiRequestTyped<Query, Body>,
 	res: NextApiResponse<Response>
 ) {
 	const query = req.query
 	const body = req.body
 
 	// TODO: Move to middleware and also .setHeader('message', error...)
-	if (!QueryParamsSchema.parse(query)) return res.status(400).send({})
+	if (!QuerySchema.parse(query)) return res.status(400).send({})
 	if (!BodySchema.parse(body)) return res.status(400).send({})
 
 	const room = getRoom(req.query.room)

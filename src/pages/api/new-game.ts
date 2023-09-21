@@ -4,21 +4,21 @@ import { getRoom } from 'models/room'
 import { NextApiResponse } from 'next'
 import { z } from 'zod'
 
-const QueryParamsSchema = z.object({
+const QuerySchema = z.object({
 	room: z.string(),
 })
-export type QueryParams = z.infer<typeof QueryParamsSchema>
+export type Query = z.infer<typeof QuerySchema>
 
 export type Response = {}
 
 export default async function handler(
-	req: NextApiRequestTyped<QueryParams, undefined>,
+	req: NextApiRequestTyped<Query, undefined>,
 	res: NextApiResponse<Response>
 ) {
 	const query = req.query
 
 	// TODO: Move to middleware and also .setHeader('message', error...)
-	if (!QueryParamsSchema.parse(query)) return res.status(400).send({})
+	if (!QuerySchema.parse(query)) return res.status(400).send({})
 
 	const room = getRoom(req.query.room)
 	if (!room) return res.status(404).send({})
