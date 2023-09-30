@@ -1,6 +1,6 @@
 import { useDraggable } from '@dnd-kit/core'
 import Image from 'next/image'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 
 import { Card } from 'models/card'
 import {
@@ -29,7 +29,7 @@ type Props = {
 	isPlaying?: boolean
 }
 
-export default function PlayingCard({
+const BasePlayingCard = ({
 	id,
 	isInHand,
 	isHovering,
@@ -38,7 +38,7 @@ export default function PlayingCard({
 	isDragging,
 	isPlayed,
 	isPlaying,
-}: Props) {
+}: Props) => {
 	const { attributes, listeners, setNodeRef } = useDraggable({
 		id: id || 'none',
 	})
@@ -127,3 +127,5 @@ export default function PlayingCard({
 		</Client>
 	)
 }
+
+export const PlayingCard = memo(BasePlayingCard)

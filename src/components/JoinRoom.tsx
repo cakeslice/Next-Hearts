@@ -31,25 +31,23 @@ const ForkMeButton = () => (
 	</div>
 )
 
-const Logo = () => {
-	return (
-		<div className='flex'>
-			<div className='w-[20px]'>
-				<Image
-					className={clsx(styles.LogoShadow, styles.Card1, `min-w-[80px] w-[80px]`)}
-					alt='Card'
-					src={card1}
-				/>
-			</div>
-
+const Logo = () => (
+	<div className='flex'>
+		<div className='w-[20px]'>
 			<Image
-				className={clsx(styles.LogoShadow, styles.Card2, `w-[80px] left-[10px] relative`)}
+				className={clsx(styles.LogoShadow, styles.Card1, `min-w-[80px] w-[80px]`)}
 				alt='Card'
-				src={card2}
+				src={card1}
 			/>
 		</div>
-	)
-}
+
+		<Image
+			className={clsx(styles.LogoShadow, styles.Card2, `w-[80px] left-[10px] relative`)}
+			alt='Card'
+			src={card2}
+		/>
+	</div>
+)
 
 export const useJoinRoom = (
 	playerID: string,

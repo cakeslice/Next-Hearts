@@ -1,13 +1,12 @@
 import { useDroppable } from '@dnd-kit/core'
-import { Animation } from 'pages'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import PlayingCard from './PlayingCard'
-
 import { useBreakpoint } from 'core/client/components/MediaQuery'
 import { Player, PlayerPosition } from 'models/player'
+import { Animation } from 'pages'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Client } from 'react-hydration-provider'
 import { getCardSize, highlightColorBright, playedCardSizeRatio } from 'utils/consts'
 import styles from './CardArea.module.scss'
+import { PlayingCard } from './PlayingCard'
 
 type Props = {
 	id?: string
@@ -30,7 +29,7 @@ const getRandomRotation = () => Math.random() * 10 * (Math.random() < 0.5 ? -1 :
 
 let queuedAnimation: NodeJS.Timeout | undefined
 
-export function CardArea({ animationData, playerData, id }: Props) {
+const BaseCardArea = ({ animationData, playerData, id }: Props) => {
 	const { position, player } = playerData
 	const { animation, animateToPosition } = animationData
 
@@ -161,3 +160,5 @@ export function CardArea({ animationData, playerData, id }: Props) {
 		</Client>
 	)
 }
+
+export const CardArea = memo(BaseCardArea)
