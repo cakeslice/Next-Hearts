@@ -25,7 +25,7 @@ async function fetcher<T>(args: FetcherArgs): Promise<T> {
 	const options = args[4]
 
 	const response = await fetch(url + (query || ''), {
-		method: method || 'GET',
+		method: method || (body ? 'POST' : 'GET'),
 		headers: body
 			? {
 					'Content-Type': 'application/json',
