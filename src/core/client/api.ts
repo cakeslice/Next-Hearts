@@ -13,16 +13,19 @@ class RequestError extends Error {
 	}
 }
 
-type FetcherArgs = [string, string?, object?, RequestInit?]
+type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+
+type FetcherArgs = [string, string?, object?, string?, RequestInit?]
 
 async function fetcher<T>(args: FetcherArgs): Promise<T> {
 	const url = args[0]
 	const query = args[1]
 	const body = args[2]
-	const options = args[3]
+	const method = args[3]
+	const options = args[4]
 
 	const response = await fetch(url + (query || ''), {
-		method: body ? 'POST' : 'GET',
+		method: method || 'GET',
 		headers: body
 			? {
 					'Content-Type': 'application/json',
@@ -35,18 +38,26 @@ async function fetcher<T>(args: FetcherArgs): Promise<T> {
 		const message = response.headers && response.headers.get('message')
 		throw new RequestError(message || 'Request error', response.status)
 	}
-	return response.json()
+
+	const contentType = response.headers.get('content-type')
+	if (contentType && contentType.indexOf('application/json') !== -1) {
+		return response.json()
+	} else {
+		return response.text() as T
+	}
 }
 async function backendFetcher<T>(args: FetcherArgs): Promise<T> {
 	const url = args[0]
 	const query = args[1]
 	const body = args[2]
-	const options = args[3]
+	const method = args[3]
+	const options = args[4]
 
 	return await fetcher([
 		backendURL + url,
 		query || '',
 		body,
+		method,
 		{
 			...options,
 			headers: {
@@ -64,12 +75,14 @@ export async function request<Response, QueryParams, Body extends object | undef
 	path: string
 	query?: QueryParams
 	body?: Body
+	method?: Method
 	external?: boolean
 	options?: RequestInit
-}): Promise<[Response | undefined, RequestError | undefined]> {
+}): Promise<{ result?: Response; error?: RequestError }> {
 	const path = '/' + args.path
 	const query = args.query ? '?' + new URLSearchParams(args.query as any).toString() : undefined
 	const body = args.body
+	const method = args.method
 	const external = args.external
 	const options = args.options
 
@@ -77,34 +90,37 @@ export async function request<Response, QueryParams, Body extends object | undef
 	let error: RequestError | undefined = undefined
 	try {
 		result = await (external
-			? fetcher([path, query, body, options])
-			: backendFetcher([path, query, body, options]))
+			? fetcher([path, query, body, method, options])
+			: backendFetcher([path, query, body, method, options]))
 	} catch (e) {
 		error = e as RequestError
 	}
 
-	return [result, error]
+	return { result, error }
 }
 
-export function useApi<Response, QueryParams, Body extends object | undefined>(
-	args: [
-		path: string,
-		query?: QueryParams,
-		body?: Body,
-		external?: boolean,
-		options?: RequestInit,
-	]
-) {
+export function useApi<Response, QueryParams, Body extends object | undefined>({
+	path,
+	query,
+	body,
+	method,
+	external,
+	options,
+}: {
+	path: string
+	query?: QueryParams
+	body?: Body
+	method?: Method
+	external?: boolean
+	options?: RequestInit
+}) {
 	const router = useRouter()
 
-	const path = '/' + args[0]
-	const query = args[1] ? '?' + new URLSearchParams(args[1] as any).toString() : undefined
-	const body = args[2]
-	const external = args[3]
-	const options = args[4]
+	const _path = '/' + path
+	const _query = query ? '?' + new URLSearchParams(query).toString() : undefined
 
 	const { data, mutate, isLoading, error } = useSWR<Response, RequestError>(
-		router.isReady ? [path, query, body, options] : undefined,
+		router.isReady ? [_path, _query, body, method, options] : undefined,
 		external ? fetcher : backendFetcher
 	)
 

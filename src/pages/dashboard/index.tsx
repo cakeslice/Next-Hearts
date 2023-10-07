@@ -40,30 +40,28 @@ const Filters = () => {
 
 			<div className='flex flex-wrap items-center' style={{ gap: 15 }}>
 				{allCategories.map((s) => (
-					<>
-						<Checkbox
-							key={s}
-							checked={query.categories?.includes(s) || false}
-							onChange={(e) => {
-								// TODO: Maybe with zod?
-								// Otherwise we need to do Array.isArray everytime...
-								let array = Array.isArray(query.categories)
-									? query.categories
-									: query.categories
-									? [query.categories]
-									: []
+					<Checkbox
+						key={s}
+						checked={query.categories?.includes(s) || false}
+						onChange={(e) => {
+							// TODO: Maybe with zod?
+							// Otherwise we need to do Array.isArray everytime...
+							let array = Array.isArray(query.categories)
+								? query.categories
+								: query.categories
+								? [query.categories]
+								: []
 
-								if (e.currentTarget.checked) array.push(s)
-								else array = array.filter((e) => e !== s)
+							if (e.currentTarget.checked) array.push(s)
+							else array = array.filter((e) => e !== s)
 
-								setQuery({ categories: array })
-							}}
-						>
-							<Chip variant='bordered' className={categoryStyle[s]}>
-								{s}
-							</Chip>
-						</Checkbox>
-					</>
+							setQuery({ categories: array })
+						}}
+					>
+						<Chip variant='bordered' className={categoryStyle[s]}>
+							{s}
+						</Chip>
+					</Checkbox>
 				))}
 			</div>
 		</>
@@ -92,11 +90,12 @@ const Dashboard: NextPage = () => {
 
 	const { query } = useQueryParams<CompanyQuery>()
 
-	const { data, isLoading } = useApi<Response, CompanyQuery, {}>(['companies', query])
+	const { data, isLoading } = useApi<Response, CompanyQuery, {}>({ path: 'companies', query })
 
 	const sendData = async () => {
-		const [res, error] = await request<{ helloSuccess: string }, {}, AddDataBody>({
+		const { error } = await request<{ helloSuccess: string }, {}, AddDataBody>({
 			path: 'add-data',
+			method: 'POST',
 			body: {
 				hello: true,
 			},
@@ -202,30 +201,28 @@ const Dashboard: NextPage = () => {
 	)
 }
 
-const Row = (props: { company: Company }) => {
+const Row = ({ company }: { company: Company }) => {
 	const { dark } = useDark()
-
-	const c = props.company
 
 	return (
 		<div className='desktop:contents mobile:border-1 mobile:border-primary mobile:p-4 rounded-lg'>
-			<div style={{ fontWeight: 500, opacity: dark ? 1 : 0.75 }}>{c.name}</div>
+			<div style={{ fontWeight: 500, opacity: dark ? 1 : 0.75 }}>{company.name}</div>
 
 			<Desktop>
 				<div className='flex' style={{ gap: 10 }}>
-					{c.categories.map((s) => (
+					{company.categories.map((s) => (
 						<Chip className={categoryStyle[s]} variant='bordered' key={s}>
 							{s}
 						</Chip>
 					))}
 				</div>
-				<div>{c.city}</div>
+				<div>{company.city}</div>
 			</Desktop>
 
 			<div className='flex flex-col items-end desktop:hidden' style={{ gap: 10 }}>
-				<div>{c.city}</div>
+				<div>{company.city}</div>
 				<div className='flex justify-end' style={{ flexWrap: 'wrap', gap: 10 }}>
-					{c.categories.map((s) => (
+					{company.categories.map((s) => (
 						<Chip className={categoryStyle[s]} key={s}>
 							{s}
 						</Chip>
