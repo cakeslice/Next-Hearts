@@ -46,23 +46,23 @@ const Game: NextPage = () => {
 	const playerID = useMemo(() => getPlayerID(), [])
 
 	const { query, queryReady } = useQueryParams<Query>()
-	const { data, refetch, error } = useApi<GameResponse, Query, GameBody>([
-		'game',
+	const { data, refetch, error } = useApi<GameResponse, Query, GameBody>({
+		path: 'game',
 		query,
-		{ playerID },
-	])
+		body: { playerID },
+	})
 	const players = useMemo(() => data?.players || [], [data?.players])
 	const localPlayer = useMemo(() => players.find((p) => p.isLocal), [players])
 
 	const playCard = async (body: PlayCardBody) => {
-		const [res, error] = await request<PlayCardResponse, Query, PlayCardBody>({
+		const { result, error } = await request<PlayCardResponse, Query, PlayCardBody>({
 			path: 'play-card',
 			query: query,
 			body: body,
 		})
 		if (error) alert(error.message)
 
-		return res
+		return result
 	}
 
 	//
@@ -252,6 +252,7 @@ const Game: NextPage = () => {
 					/>
 
 					<PlayerHand
+						interactive={interactive}
 						localPlayer={localPlayer}
 						startingCard={data?.startingCard}
 						draggingCard={draggingCard}

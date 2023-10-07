@@ -78,21 +78,21 @@ export const useJoinRoom = (
 				<ModalContent>
 					<form
 						onSubmit={handleSubmit(async (values) => {
-							const [res] = await request<Response, undefined, Body>({
-								path: '/join-game',
+							const { result } = await request<Response, undefined, Body>({
+								path: 'join-game',
 								body: {
 									playerID,
 									roomID,
 									name: values.name,
 								},
 							})
-							if (res?.roomID) {
-								router.push('/?room=' + res.roomID)
+							if (result?.roomID) {
+								router.push('/?room=' + result.roomID)
 								refetch()
 								setIsOpened(false)
 							} else {
 								router.push('/')
-								setError(res?.error || 'Something went wrong')
+								setError(result?.error || 'Something went wrong')
 							}
 						})}
 					>
