@@ -4,7 +4,7 @@ import { breakpoints } from '../../../../tailwind.config'
 
 type BreakpointKey = keyof typeof breakpoints
 
-/** Only works in the client. Needs to be wrapped with <Client/> to check for hydration */
+/** Only works in the client. Wrap with "Client" if you use this hook to check for hydration */
 export function useBreakpoint(breakpointKey: BreakpointKey) {
 	const breakpointValue = breakpoints?.[breakpointKey as BreakpointKey]
 	const matches = useMediaQuery({
