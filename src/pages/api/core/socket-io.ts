@@ -5,8 +5,6 @@ import type { Socket as NetSocket } from 'net'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Server as IOServer } from 'socket.io'
 
-// ! NOTE: This only works with Next.js 13.2.3 since the server "upgrade" doesn't seem to work anymore in later versions
-
 declare global {
 	var io: IOServer | undefined
 }

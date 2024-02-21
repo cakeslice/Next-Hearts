@@ -1,7 +1,7 @@
 import { useTheme } from 'next-themes'
 
 export type Theme = 'system' | 'dark' | 'light'
-/** Use <Client/> on components that use this */
+/** Only works in the client. Wrap with "Client" if you use this hook to check for hydration */
 export const useDark = () => {
 	const { resolvedTheme } = useTheme()
 
