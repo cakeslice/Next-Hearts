@@ -1,89 +1,33 @@
-import { MoonIcon, SunIcon } from '@heroicons/react/20/solid'
-import { Button, Checkbox, Chip, Divider, Input, Spacer, Spinner } from '@nextui-org/react'
-import { useDebounce } from '@uidotdev/usehooks'
+import {
+	Button,
+	Spacer,
+	Spinner,
+	Table,
+	TableBody,
+	TableCell,
+	TableColumn,
+	TableHeader,
+	TableRow,
+} from '@nextui-org/react'
 import PageWrapper from 'components/PageWrapper'
+import { ThemeToggle } from 'components/common/ThemeToggle'
+import { Cell } from 'components/dashboard/Cell'
 import DashboardWrapper from 'components/dashboard/DashboardWrapper'
+import { Filters } from 'components/dashboard/Filters'
 import { request, useApi, useQueryParams } from 'core/client/api'
-import { Desktop, Mobile } from 'core/client/components/MediaQuery'
-import { useDark } from 'core/client/hooks'
-import { Company, allCategories, categoryStyle } from 'models/company'
+import { Desktop, Mobile, useBreakpoint } from 'core/client/components/MediaQuery'
 import type { NextPage } from 'next'
-import { useTheme } from 'next-themes'
 import { Body as AddDataBody } from 'pages/api/add-data'
 import { Query as CompanyQuery, Response } from 'pages/api/companies'
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Client } from 'react-hydration-provider'
 
-const Filters = () => {
-	const { query, setQuery } = useQueryParams<CompanyQuery>()
-
-	const [search, setSearch] = useState(query.search)
-	const debouncedSearch = useDebounce(search, 200)
-
-	useEffect(() => {
-		setQuery({ search: debouncedSearch })
-	}, [debouncedSearch])
-
-	return (
-		<>
-			<Input
-				className='w-auto'
-				autoFocus
-				variant='bordered'
-				placeholder='Search by company name'
-				defaultValue={query.search}
-				style={{ flex: 'grow', minWidth: 250, maxWidth: 400 }}
-				onChange={(e) => {
-					setSearch(e.currentTarget.value)
-				}}
-			/>
-
-			<div className='flex flex-wrap items-center' style={{ gap: 15 }}>
-				{allCategories.map((s) => (
-					<Checkbox
-						key={s}
-						checked={query.categories?.includes(s) || false}
-						onChange={(e) => {
-							// TODO: Maybe with zod?
-							// Otherwise we need to do Array.isArray everytime...
-							let array = Array.isArray(query.categories)
-								? query.categories
-								: query.categories
-								? [query.categories]
-								: []
-
-							if (e.currentTarget.checked) array.push(s)
-							else array = array.filter((e) => e !== s)
-
-							setQuery({ categories: array })
-						}}
-					>
-						<Chip variant='bordered' className={categoryStyle[s]}>
-							{s}
-						</Chip>
-					</Checkbox>
-				))}
-			</div>
-		</>
-	)
-}
-
-const ThemeToggle = () => {
-	const { dark } = useDark()
-	const { setTheme } = useTheme()
-
-	return (
-		<Client>
-			<Button className='min-w-fit' onClick={() => setTheme(dark ? 'light' : 'dark')}>
-				{dark ? (
-					<SunIcon className='text-gray-300 w-6' />
-				) : (
-					<MoonIcon className='text-gray-500 w-5' />
-				)}
-			</Button>
-		</Client>
-	)
-}
+const columns = [
+	{ name: 'COMPANY', uid: 'name' },
+	{ name: 'CATEGORIES', uid: 'categories', desktop: true },
+	{ name: 'CITY', uid: 'city', desktop: true },
+	{ name: 'INFO', uid: 'info', mobile: true },
+]
 
 const Dashboard: NextPage = () => {
 	const [filtersOpen, setFiltersOpen] = useState(false)
@@ -102,6 +46,13 @@ const Dashboard: NextPage = () => {
 		})
 		if (error) alert(error.message)
 	}
+
+	const mobile = useBreakpoint('mobile')
+
+	const responsiveColumns = useMemo(
+		() => columns.filter((c) => (mobile ? !c.desktop : !c.mobile)),
+		[mobile]
+	)
 
 	return (
 		<PageWrapper>
@@ -138,98 +89,30 @@ const Dashboard: NextPage = () => {
 
 				<Spacer y={5} />
 
-				<div
-					className='grid desktop:grid-cols-3 desktop:items-center desktop:gap-6 mobile:gap-x-1 mobile:gap-y-6'
-					style={{
-						padding: 24,
-						border: '1px solid rgba(126,126,126,.3)',
-						borderRadius: 10,
-						minHeight: 500,
-						alignContent: 'flex-start',
-					}}
-				>
-					{['Company', 'Categories', 'City'].map((h) => (
-						<div
-							key={h}
-							className='mobile:hidden'
-							style={{
-								fontWeight: 500,
-							}}
+				<Client>
+					<Table hideHeader={mobile} aria-label='Companies table'>
+						<TableHeader columns={responsiveColumns}>
+							{(column) => <TableColumn key={column.uid}>{column.name}</TableColumn>}
+						</TableHeader>
+
+						<TableBody
+							isLoading={isLoading}
+							emptyContent='No results...'
+							loadingContent={<Spinner />}
+							items={data?.companies || []}
 						>
-							{h}
-						</div>
-					))}
-					<div
-						className='desktop:hidden'
-						style={{
-							fontWeight: 500,
-						}}
-					>
-						Companies
-					</div>
-
-					<div className='col-span-full'>
-						<Divider />
-					</div>
-
-					<Client>
-						{(isLoading || !data) && (
-							<div
-								style={{ minHeight: 100 }}
-								className='col-span-full flex items-center justify-center'
-							>
-								{isLoading && <Spinner />}
-							</div>
-						)}
-
-						{!isLoading &&
-							data &&
-							(data?.companies?.length > 0 ? (
-								data?.companies?.map((c) => <Row key={c.name} company={c} />)
-							) : (
-								<div
-									style={{ minHeight: 100 }}
-									className='col-span-full flex items-center justify-center'
-								>
-									No results...
-								</div>
-							))}
-					</Client>
-				</div>
+							{(item) => (
+								<TableRow key={item.name}>
+									{(columnKey) => (
+										<TableCell>{Cell(item, `${columnKey}`)}</TableCell>
+									)}
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+				</Client>
 			</DashboardWrapper>
 		</PageWrapper>
-	)
-}
-
-const Row = ({ company }: { company: Company }) => {
-	const { dark } = useDark()
-
-	return (
-		<div className='desktop:contents mobile:border-1 mobile:border-primary mobile:p-4 rounded-lg'>
-			<div style={{ fontWeight: 500, opacity: dark ? 1 : 0.75 }}>{company.name}</div>
-
-			<Desktop>
-				<div className='flex' style={{ gap: 10 }}>
-					{company.categories.map((s) => (
-						<Chip className={categoryStyle[s]} variant='bordered' key={s}>
-							{s}
-						</Chip>
-					))}
-				</div>
-				<div>{company.city}</div>
-			</Desktop>
-
-			<div className='flex flex-col items-end desktop:hidden' style={{ gap: 10 }}>
-				<div>{company.city}</div>
-				<div className='flex justify-end' style={{ flexWrap: 'wrap', gap: 10 }}>
-					{company.categories.map((s) => (
-						<Chip className={categoryStyle[s]} key={s}>
-							{s}
-						</Chip>
-					))}
-				</div>
-			</div>
-		</div>
 	)
 }
 

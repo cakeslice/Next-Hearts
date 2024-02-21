@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { zodObjectKeys, zodQueryArray } from 'core/server/zod'
 import { z } from 'zod'
 
@@ -11,7 +12,7 @@ export const allCategories = Object.keys(categoryStyle) as Category[]
 
 export type Company = {
 	name: string
-	logo: string
+	logo?: string
 	categories: Category[]
 	city: string
 }
@@ -19,29 +20,9 @@ export type Company = {
 const [firstCat, ...restCats] = zodObjectKeys(categoryStyle)
 export const zodCategories = z.optional(zodQueryArray(z.enum([firstCat!, ...restCats])))
 
-export const companiesData: Company[] = [
-	{
-		name: 'Construct-X',
-		logo: '',
-		categories: ['Excavation'],
-		city: 'Lisbon',
-	},
-	{
-		name: 'Buildify',
-		logo: '',
-		categories: ['Electrical', 'Plumbing'],
-		city: 'Essen',
-	},
-	{
-		name: 'Meta-Builders',
-		logo: '',
-		categories: ['Electrical', 'Excavation'],
-		city: 'Munich',
-	},
-	{
-		name: 'Brick-by-Brick',
-		logo: '',
-		categories: ['Plumbing'],
-		city: 'Berlin',
-	},
-]
+export const companiesData: Company[] = [...new Array(100)].map(() => ({
+	name: faker.company.name(),
+	logo: Math.random() > 0.5 ? faker.image.avatar() : undefined,
+	categories: faker.helpers.arrayElements(allCategories),
+	city: faker.location.city(),
+}))

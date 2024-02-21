@@ -45,5 +45,7 @@ export default function handler(req: NextApiRequestTyped<Query>, res: NextApiRes
 		})
 	}
 
+	output.companies = output.companies.slice(0, 10)
+
 	res.status(200).json(output)
 }
