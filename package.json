@@ -13,7 +13,9 @@
 		"export": "next build && next export",
 		"lint": "next lint",
 		"deploy-docker": "env-cmd npm run deploy-docker-script",
-		"deploy-docker-script": "cross-env-shell docker image build -t $DOCKER_IMAGE . && cross-env-shell docker push $DOCKER_IMAGE"
+		"deploy-docker-script": "cross-env-shell docker image build -t $DOCKER_IMAGE . && cross-env-shell docker push $DOCKER_IMAGE",
+		"test": "jest",
+		"test:watch": "jest --watch"
 	},
 	"dependencies": {
 		"@heroicons/react": "^2.0.18",
@@ -40,6 +42,9 @@
 		}
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "^6.4.2",
+		"@testing-library/react": "^14.2.1",
+		"@testing-library/user-event": "^14.5.2",
 		"@types/node": "20.5.9",
 		"@types/react": "18.2.21",
 		"@types/react-dom": "18.2.7",
@@ -50,9 +55,12 @@
 		"env-cmd": "^10.1.0",
 		"eslint": "^8.47.0",
 		"eslint-config-next": "13.4.19",
+		"jest": "^29.7.0",
+		"jest-environment-jsdom": "^29.7.0",
 		"postcss": "^8.4.16",
 		"prettier": "^3.0.3",
 		"tailwindcss": "^3.1.8",
+		"ts-jest": "^29.1.2",
 		"typescript": "^5.1.6"
 	}
 }
