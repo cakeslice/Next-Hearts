@@ -19,6 +19,7 @@ export const config: Config = {
 	},
 	plugins: [
 		nextui({
+			addCommonColors: true,
 			themes: {
 				dark: {
 					colors: {
