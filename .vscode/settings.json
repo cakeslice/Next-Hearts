@@ -22,8 +22,8 @@
 	"editor.formatOnSave": true,
 	"editor.insertSpaces": false,
 	"editor.codeActionsOnSave": {
-		"source.fixAll": true,
-		"source.organizeImports": true
+		"source.fixAll": "explicit",
+		"source.organizeImports": "explicit"
 	},
 	//
 	"npm.enableRunFromFolder": true,

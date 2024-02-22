@@ -18,7 +18,7 @@ export const Filters = () => {
 	return (
 		<>
 			<Input
-				data-testId='dashboard.Filters.Input-search'
+				data-testid='dashboard.Filters.Input-search'
 				className='w-auto'
 				autoFocus
 				variant='bordered'
