@@ -92,7 +92,20 @@ const Dashboard: NextPage = () => {
 				<Client>
 					<Table hideHeader={mobile} aria-label='Companies table'>
 						<TableHeader columns={responsiveColumns}>
-							{(column) => <TableColumn key={column.uid}>{column.name}</TableColumn>}
+							{(column) => (
+								<TableColumn
+									width={
+										column.uid === 'city'
+											? '25%'
+											: column.uid === 'categories'
+											? 310
+											: undefined
+									}
+									key={column.uid}
+								>
+									{column.name}
+								</TableColumn>
+							)}
 						</TableHeader>
 
 						<TableBody
