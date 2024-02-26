@@ -6,7 +6,7 @@ import { Player } from 'models/player'
 import { memo, useCallback, useMemo } from 'react'
 import { Client } from 'react-hydration-provider'
 import { getCardSize, handCardVisibleRatio, maxCardsHandRowMobile } from 'utils/consts'
-import styles from './PlayerHand.module.scss'
+import styles from './PlayerHand.module.css'
 import { PlayingCard } from './PlayingCard'
 
 const getCenteredHand = (amount: number, isMobile: boolean) => {

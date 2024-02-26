@@ -11,7 +11,7 @@ import {
 	useSensors,
 } from '@dnd-kit/core'
 import { snapCenterToCursor } from '@dnd-kit/modifiers'
-import PageWrapper from 'components/PageWrapper'
+import { PageWrapper } from 'components/PageWrapper'
 import { PlayingCard } from 'components/PlayingCard'
 import { request, useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'

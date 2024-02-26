@@ -5,7 +5,7 @@ import { Animation } from 'pages'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Client } from 'react-hydration-provider'
 import { getCardSize, highlightColorBright, playedCardSizeRatio } from 'utils/consts'
-import styles from './CardArea.module.scss'
+import styles from './CardArea.module.css'
 import { PlayingCard } from './PlayingCard'
 
 type Props = {

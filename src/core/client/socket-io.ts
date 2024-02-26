@@ -5,29 +5,23 @@ import React, { useEffect } from 'react'
 import { Socket, io } from 'socket.io-client'
 import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 
-export const socket =
-	websocketsEnabled &&
-	io(
-		{
-			path: backendURL + '/core/ws',
-			transports: ['websocket'],
-		},
-		{ autoConnect: false }
-	)
+export const socket = websocketsEnabled
+	? io(backendURL + '/core/ws', { autoConnect: false, transports: ['websocket'] })
+	: undefined
 export const SocketContext = React.createContext(socket)
 
 const startConnection = async () => {
 	await request({ path: 'core/socket-io' })
 
-	socket.connect()
+	socket?.connect()
 
-	socket.on('connect', () => {
+	socket?.on('connect', () => {
 		console.log('[Socket.IO] Connected')
 	})
-	socket.on('disconnect', () => {
+	socket?.on('disconnect', () => {
 		console.log('[Socket.IO] Disconnected')
 	})
-	socket.on('reconnect_attempt', async (attempt) => {
+	socket?.on('reconnect_attempt', async (attempt) => {
 		await request({ path: 'socket-io' })
 		console.log('[Socket.IO] Reconnect attempt #' + attempt)
 	})
@@ -43,13 +37,12 @@ export function useSocketChannel<
 >(events: Partial<ClientEvents>) {
 	useEffect(() => {
 		Object.keys(events).forEach((channel) => {
-			// @ts-ignore
-			socket.on(channel as string, events[channel])
+			socket?.on(channel as string, events[channel] as () => void)
 		})
 
 		return () => {
 			Object.keys(events).forEach((channel) => {
-				socket.off(channel as string, events[channel])
+				socket?.off(channel as string, events[channel])
 			})
 		}
 	}, [events])

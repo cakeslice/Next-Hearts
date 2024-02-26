@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import styles from './JoinRoom.module.scss'
+import styles from './JoinRoom.module.css'
 
 import { Button, Input, Link, Modal, ModalContent, Spacer, Tooltip } from '@nextui-org/react'
 import clsx from 'clsx'
@@ -35,6 +35,7 @@ const Logo = () => (
 	<div className='flex'>
 		<div className='w-[20px]'>
 			<Image
+				priority
 				className={clsx(styles.LogoShadow, styles.Card1, `min-w-[80px] w-[80px]`)}
 				alt='Card'
 				src={card1}
@@ -42,6 +43,7 @@ const Logo = () => (
 		</div>
 
 		<Image
+			priority
 			className={clsx(styles.LogoShadow, styles.Card2, `w-[80px] left-[10px] relative`)}
 			alt='Card'
 			src={card2}

@@ -1,11 +1,11 @@
-import { description, title } from 'config'
 import Head from 'next/head'
 
 import clsx from 'clsx'
 import { cardsList } from 'models/card'
-import styles from './PageWrapper.module.scss'
+import { memo } from 'react'
+import styles from './PageWrapper.module.css'
 
-export default function PageWrapper({ children }: { children: React.ReactNode }) {
+export const PageWrapper = memo(function PageWrapper({ children }: { children: React.ReactNode }) {
 	return (
 		<div
 			className={clsx(
@@ -14,8 +14,6 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
 			)}
 		>
 			<Head>
-				<title>{title}</title>
-				<meta name='description' content={description} />
 				<meta
 					name='viewport'
 					content='width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0'
@@ -32,4 +30,4 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
 			</div>
 		</div>
 	)
-}
+})

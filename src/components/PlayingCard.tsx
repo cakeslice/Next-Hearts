@@ -14,7 +14,7 @@ import transparentCard from '../../public/assets/cards/transparent.svg'
 
 import { useBreakpoint } from 'core/client/components/MediaQuery'
 import { Client } from 'react-hydration-provider'
-import styles from './PlayingCard.module.scss'
+import styles from './PlayingCard.module.css'
 
 const cardImageRatio = 78 / 113
 

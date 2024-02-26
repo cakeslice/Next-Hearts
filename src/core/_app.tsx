@@ -1,5 +1,7 @@
+import './wdyr'
+
 import { NextUIProvider } from '@nextui-org/react'
-import { defaultTheme, description, title } from 'config'
+import { defaultTheme, description, forceTheme, preconnectURLs, title } from 'config'
 import { ThemeProvider } from 'next-themes'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -12,12 +14,25 @@ export default function App(props: AppProps) {
 	return (
 		<NextUIProvider>
 			<HydrationProvider>
-				<ThemeProvider attribute='class' defaultTheme={defaultTheme}>
+				<ThemeProvider
+					attribute='class'
+					forcedTheme={forceTheme}
+					defaultTheme={defaultTheme}
+				>
 					<SocketContext.Provider value={socket}>
 						<Head>
 							<title>{title}</title>
 							<meta name='description' content={description} />
 							<link rel='icon' href='/favicon.ico' />
+
+							{preconnectURLs.map((url) => (
+								<link
+									key={url.link}
+									rel='preconnect'
+									href={url.link}
+									crossOrigin={url.crossOrigin ? 'anonymous' : undefined}
+								/>
+							))}
 
 							<meta
 								name='viewport'

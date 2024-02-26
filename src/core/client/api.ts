@@ -29,7 +29,7 @@ async function fetcher<T>(args: FetcherArgs): Promise<T> {
 		headers: body
 			? {
 					'Content-Type': 'application/json',
-			  }
+				}
 			: undefined,
 		body: body ? JSON.stringify(body) : undefined,
 		...options,
@@ -61,7 +61,7 @@ async function backendFetcher<T>(args: FetcherArgs): Promise<T> {
 		{
 			...options,
 			headers: {
-				'x-socket-id': socket?.id,
+				...(socket?.id && { 'x-socket-id': socket?.id }),
 				...(body && {
 					'Content-Type': 'application/json',
 				}),
@@ -121,6 +121,7 @@ export function useApi<Response, QueryParams, Body extends object | undefined>({
 
 	const { data, mutate, isLoading, error } = useSWR<Response, RequestError>(
 		router.isReady ? [_path, _query, body, method, options] : undefined,
+		// @ts-ignore
 		external ? fetcher : backendFetcher
 	)
 
