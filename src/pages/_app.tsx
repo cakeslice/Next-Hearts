@@ -1,6 +1,6 @@
-import "core/fonts.css";
-import "core/globals.css";
-import App from "core/_app";
+import App from 'core/_app'
+import '../fonts.css'
+import '../globals.css'
 
-const _App = App;
-export default _App;
+const _App = App
+export default _App

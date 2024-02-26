@@ -19,18 +19,17 @@ export const Filters = () => {
 		<>
 			<Input
 				data-testid='dashboard.Filters.Input-search'
-				className='w-auto'
+				className='w-auto grow min-w-[250px] max-w-[400px]'
 				autoFocus
 				variant='bordered'
 				placeholder='Search by company name'
 				defaultValue={query.search}
-				style={{ flex: 'grow', minWidth: 250, maxWidth: 400 }}
 				onChange={(e) => {
 					setSearch(e.currentTarget.value)
 				}}
 			/>
 
-			<div className='flex flex-wrap items-center' style={{ gap: 15 }}>
+			<div className='flex flex-wrap items-center gap-[15px]'>
 				{allCategories.map((s) => (
 					<Checkbox
 						key={s}
@@ -41,8 +40,8 @@ export const Filters = () => {
 							let array = Array.isArray(query.categories)
 								? query.categories
 								: query.categories
-								? [query.categories]
-								: []
+									? [query.categories]
+									: []
 
 							if (e.currentTarget.checked) array.push(s)
 							else array = array.filter((e) => e !== s)

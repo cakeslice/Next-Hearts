@@ -9,13 +9,13 @@ import {
 	TableHeader,
 	TableRow,
 } from '@nextui-org/react'
-import PageWrapper from 'components/PageWrapper'
-import { ThemeToggle } from 'components/common/ThemeToggle'
+import { PageWrapper } from 'components/PageWrapper'
 import { Cell } from 'components/dashboard/Cell'
 import DashboardWrapper from 'components/dashboard/DashboardWrapper'
 import { Filters } from 'components/dashboard/Filters'
 import { request, useApi, useQueryParams } from 'core/client/api'
 import { Desktop, Mobile, useBreakpoint } from 'core/client/components/MediaQuery'
+import { ThemeToggle } from 'core/client/components/ThemeToggle'
 import type { NextPage } from 'next'
 import { Body as AddDataBody } from 'pages/api/add-data'
 import { Query as CompanyQuery, Response } from 'pages/api/companies'
@@ -57,10 +57,7 @@ const Dashboard: NextPage = () => {
 	return (
 		<PageWrapper>
 			<DashboardWrapper>
-				<div
-					className='flex flex-wrap justify-between items-center'
-					style={{ gap: '15px 30px' }}
-				>
+				<div className='flex flex-wrap justify-between items-center gap-y-[15px] gap-x-[30px]'>
 					<Desktop>
 						<Filters />
 						<div className='flex gap-3'>
@@ -81,7 +78,7 @@ const Dashboard: NextPage = () => {
 					</Mobile>
 
 					{filtersOpen && (
-						<div className='flex flex-col desktop:hidden' style={{ gap: 15 }}>
+						<div className='flex flex-col desktop:hidden gap-[15px]'>
 							<Filters />
 						</div>
 					)}
@@ -98,8 +95,8 @@ const Dashboard: NextPage = () => {
 										column.uid === 'city'
 											? '25%'
 											: column.uid === 'categories'
-											? 310
-											: undefined
+												? 310
+												: undefined
 									}
 									key={column.uid}
 								>

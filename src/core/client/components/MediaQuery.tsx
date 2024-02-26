@@ -1,5 +1,6 @@
 import { useMediaQuery } from 'react-responsive'
 
+import { memo } from 'react'
 import { breakpoints } from '../../../../tailwind.config'
 
 type BreakpointKey = keyof typeof breakpoints
@@ -23,11 +24,11 @@ export function useBreakpoint(breakpointKey: BreakpointKey) {
 }
 
 /** Works on the server and client. Only hides the children, should only be used in simple scenarios */
-export const Desktop = ({ children }: { children: React.ReactNode }) => (
-	<div className='desktop:contents mobile:hidden'>{children}</div>
-)
+export const Desktop = memo(function Desktop({ children }: { children: React.ReactNode }) {
+	return <div className='desktop:contents mobile:hidden'>{children}</div>
+})
 
 /** Works on the server and client. Only hides the children, should only be used in simple scenarios */
-export const Mobile = ({ children }: { children: React.ReactNode }) => (
-	<div className='mobile:contents desktop:hidden'>{children}</div>
-)
+export const Mobile = memo(function Mobile({ children }: { children: React.ReactNode }) {
+	return <div className='mobile:contents desktop:hidden'>{children}</div>
+})

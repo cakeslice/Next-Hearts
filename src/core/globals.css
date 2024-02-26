@@ -1,6 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer utilities {
+	.text-balance {
+		text-wrap: balance;
+	}
+	.grid-wrap {
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	}
+}
 
 /* Fix chrome auto-fill input background */
 input:-webkit-autofill,
@@ -12,6 +21,7 @@ input:-webkit-autofill:active {
 
 html {
 	font-size: 1rem;
+	scroll-behavior: smooth;
 }
 body {
 	margin: 0px;
@@ -22,4 +32,20 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+::-webkit-scrollbar {
+	width: 6px; /* for vertical scrollbars */
+	height: 6px; /* for horizontal scrollbars */
+}
+::-webkit-scrollbar-track {
+	background: rgba(100, 100, 100, 0.05);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(100, 100, 100, 0.25);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-corner {
+	background: rgba(0, 0, 0, 0);
 }

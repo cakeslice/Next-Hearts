@@ -1,5 +1,7 @@
+import './wdyr'
+
 import { NextUIProvider } from '@nextui-org/react'
-import { defaultTheme, description, title } from 'config'
+import { defaultTheme, description, preconnectURLs, title } from 'config'
 import { ThemeProvider } from 'next-themes'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -18,6 +20,15 @@ export default function App(props: AppProps) {
 							<title>{title}</title>
 							<meta name='description' content={description} />
 							<link rel='icon' href='/favicon.ico' />
+
+							{preconnectURLs.map((url) => (
+								<link
+									key={url.link}
+									rel='preconnect'
+									href={url.link}
+									crossOrigin={url.crossOrigin ? 'anonymous' : undefined}
+								/>
+							))}
 
 							<meta
 								name='viewport'

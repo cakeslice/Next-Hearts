@@ -1,4 +1,4 @@
-import PageWrapper from 'components/PageWrapper'
+import { PageWrapper } from 'components/PageWrapper'
 import { useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'
 import { Query, Response } from 'pages/api/hello'

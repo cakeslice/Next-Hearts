@@ -5,7 +5,7 @@ export const Cell = (company: Company, columnKey: string) => {
 	switch (columnKey) {
 		case 'name':
 			return (
-				<div className='flex' style={{ gap: 10 }}>
+				<div className='flex gap-[10px]'>
 					<div>
 						<Avatar showFallback name={company.name} src={company.logo} />
 					</div>
@@ -14,7 +14,7 @@ export const Cell = (company: Company, columnKey: string) => {
 			)
 		case 'categories':
 			return (
-				<div className='flex' style={{ gap: 10 }}>
+				<div className='flex gap-[10px]'>
 					{company.categories.map((s) => (
 						<Chip className={categoryStyle[s]} variant='bordered' key={s}>
 							{s}
@@ -26,12 +26,9 @@ export const Cell = (company: Company, columnKey: string) => {
 			return company.city
 		case 'info':
 			return (
-				<div
-					className='flex flex-col items-end desktop:hidden text-right'
-					style={{ gap: 10 }}
-				>
+				<div className='flex flex-col items-end desktop:hidden text-right gap-[10px]'>
 					<div>{company.city}</div>
-					<div className='flex justify-end' style={{ flexWrap: 'wrap', gap: 10 }}>
+					<div className='flex justify-end flex-wrap gap-[10px]'>
 						{company.categories.map((s) => (
 							<div className={categoryStyle[s] + ' rounded w-2 h-2'} key={s} />
 						))}
