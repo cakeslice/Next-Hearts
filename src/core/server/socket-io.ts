@@ -19,7 +19,8 @@ export function socketMessage<ClientEvents extends DefaultEventsMap>(
 		| Socket<DefaultEventsMap, ClientEvents>
 		| undefined
 
-	socket?.emit(channel, ...message)
+	// @ts-ignore
+	socket?.emit(channel, message)
 }
 
 export function socketBroadcast<ClientEvents extends DefaultEventsMap>(
@@ -40,8 +41,10 @@ export function socketBroadcast<ClientEvents extends DefaultEventsMap>(
 	const io = global.io as Server<DefaultEventsMap, ClientEvents> | undefined
 
 	roomId
-		? io?.to(roomId)?.emit(channel, ...message)
-		: io?.emit(channel as EventNames<RemoveAcknowledgements<ClientEvents>>, ...message)
+		? // @ts-ignore
+			io?.to(roomId)?.emit(channel, message)
+		: // @ts-ignore
+			io?.emit(channel as EventNames<RemoveAcknowledgements<ClientEvents>>, message)
 }
 
 /** If already joined, doesn't do anything */
