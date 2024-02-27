@@ -6,19 +6,22 @@
 		"**/node_modules": true,
 		"node_modules": true,
 		"**/build": true,
-		"**/.next": true
+		"**/.next": true,
+		"**/out": true
 	},
 	"search.exclude": {
 		"**/node_modules": true,
 		"**/build": true,
-		"**/.next": true
+		"**/.next": true,
+		"**/out": true
 	},
 	"files.watcherExclude": {
 		"**/.git/objects/**": true,
 		"**/.git/subtree-cache/**": true,
 		"**/node_modules/**": true,
 		"**/build": true,
-		"**/.next": true
+		"**/.next": true,
+		"**/out": true
 	},
 	//
 	"editor.detectIndentation": false,
