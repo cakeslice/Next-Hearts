@@ -35,5 +35,9 @@
 	"npm.enableRunFromFolder": true,
 	//
 	"eslint.run": "onSave",
-	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
+	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+	//
+	"files.associations": {
+		"*.css": "tailwindcss"
+	}
 }
