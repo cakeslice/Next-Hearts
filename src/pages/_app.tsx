@@ -1,6 +1,12 @@
-import App from 'core/_app'
-import '../fonts.css'
-import '../globals.css'
+import { AppCore } from 'core/_app'
+import { AppProps } from 'next/app'
 
-const _App = App
-export default _App
+export default function App(props: AppProps) {
+	const { Component, pageProps } = props
+
+	return (
+		<AppCore>
+			<Component {...pageProps} />
+		</AppCore>
+	)
+}
