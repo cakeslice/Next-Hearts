@@ -5,7 +5,7 @@ export const enableRenderPerformanceDebugging = false
 export const websocketsEnabled = false
 
 export const defaultTheme: Theme = 'system'
-export const forceTheme: Theme = 'light'
+export const forceTheme: Theme | undefined = undefined
 
 export const title = 'Next.js boilerplate'
 export const description = 'Next.js + Tailwind + Next-UI + React Hook Form'
