@@ -29,7 +29,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 #RUN yarn build
 # If using npm comment out above and use below instead
-RUN npm run build
+RUN npm run build-standalone
 
 # Production image, copy all the files and run next
 FROM base AS runner

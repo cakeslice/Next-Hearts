@@ -8,7 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withPlugins(
 	process.env.EXPORT === 'true' ? [withExportImages, withBundleAnalyzer] : [withBundleAnalyzer],
 	{
-		output: process.env.EXPORT ? 'export' : 'standalone', // undefined for default, 'export' for static sites, 'standalone' for custom server
+		output: process.env.STANDALONE ? 'standalone' : process.env.EXPORT ? 'export' : undefined,
 		reactStrictMode: true,
 		swcMinify: true,
 		transpilePackages: ['@uidotdev', '@heroicons'],
