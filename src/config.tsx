@@ -4,8 +4,8 @@ export const enableRenderPerformanceDebugging = false
 
 export const websocketsEnabled = true
 
-export const defaultTheme: Theme = 'light'
-export const forceTheme: Theme = 'light'
+export const defaultTheme: Theme = 'system'
+export const forceTheme: Theme | undefined = 'light'
 
 export const title = 'Next-Hearts'
 export const description = 'Open-source multiplayer Hearts card game made with Next.js'
