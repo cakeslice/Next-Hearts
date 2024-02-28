@@ -1,1 +1,5 @@
 @import './core/globals.css';
+
+.Test {
+	padding: var(--tw-spacing-md)
+}

@@ -16,7 +16,7 @@ const brandColor = {
 
 const theme: CustomTheme = {
 	light: {
-		// className: 'text-primary-500', CSS: hsl(var(--nextui-primary-500) / 0.5)
+		// className: 'text-primary-500', CSS: hsl(var(--theme-primary-500) / 0.5)
 		primary: {
 			DEFAULT: brandColor.light,
 			foreground: 'rgba(255,255,255,1)',
@@ -34,7 +34,7 @@ const theme: CustomTheme = {
 }
 
 const colors = {
-	// className: 'text-brand/50', CSS: hsl(var(--twc-brand) / 0.5)
+	// className: 'text-brand/50', CSS: hsl(var(--color-brand) / 0.5)
 	brand: brandColor.light,
 	subtle: 'rgba(0, 50, 175, 0.05)',
 	test: 'rgb(255,0,0)',
@@ -148,12 +148,18 @@ export const config: Config = {
 	},
 	safelist: safelist,
 	plugins: [
-		createThemes({
-			light: colors,
-			dark: darkColors,
-		}),
+		createThemes(
+			{
+				light: colors,
+				dark: darkColors,
+			},
+			{
+				produceCssVariable: (colorName: string) => `--color-${colorName}`,
+			}
+		),
 		require('tailwindcss-animate'),
 		nextui({
+			prefix: 'theme',
 			addCommonColors: true,
 			layout,
 			themes: {
