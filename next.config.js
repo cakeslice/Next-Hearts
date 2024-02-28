@@ -12,9 +12,5 @@ module.exports = withPlugins(
 		reactStrictMode: true,
 		swcMinify: true,
 		transpilePackages: ['@uidotdev', '@heroicons'],
-		eslint: {
-			// TODO: Remove after fixing the eslint issue
-			ignoreDuringBuilds: true,
-		},
 	}
 )
