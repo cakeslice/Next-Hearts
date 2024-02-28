@@ -1,7 +1,1 @@
 @import './core/globals.css';
-
-@layer base {
-	.bg-subtle {
-		@apply bg-subtle-light dark:bg-subtle-dark;
-	}
-}
