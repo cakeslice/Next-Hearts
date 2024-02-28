@@ -24,9 +24,6 @@
 		"**/out": true
 	},
 	//
-	"editor.detectIndentation": false,
-	"editor.formatOnSave": true,
-	"editor.insertSpaces": false,
 	"editor.codeActionsOnSave": {
 		"source.fixAll": "explicit",
 		"source.organizeImports": "explicit"
