@@ -63,7 +63,7 @@ const Dashboard: NextPage = () => {
 						<div className='flex gap-3'>
 							<ThemeToggle />
 							<Button
-								color='primary'
+								className='d-button-primary'
 								onClick={async () => {
 									await sendData()
 								}}
@@ -73,7 +73,12 @@ const Dashboard: NextPage = () => {
 						</div>
 					</Desktop>
 					<Mobile>
-						<Button onClick={() => setFiltersOpen((o) => !o)}>Filters</Button>
+						<Button
+							className='d-button-secondary'
+							onClick={() => setFiltersOpen((o) => !o)}
+						>
+							Filters
+						</Button>
 						<ThemeToggle />
 					</Mobile>
 

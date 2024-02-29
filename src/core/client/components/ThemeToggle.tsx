@@ -15,8 +15,12 @@ export const ThemeToggle = () => {
 				onClick={() => setTheme(dark ? 'light' : 'dark')}
 				size='lg'
 				color='default'
-				endContent={<SunIcon className='text-gray-500 w-6' />}
-				startContent={<MoonIcon className='text-gray-300 w-5' />}
+				classNames={{
+					startContent: 'w-5 text-default-700',
+					endContent: 'w-6 text-default-700',
+				}}
+				startContent={<MoonIcon className='w-5' />}
+				endContent={<SunIcon className='w-6' />}
 			/>
 		</Client>
 	)

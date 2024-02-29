@@ -1,7 +1,5 @@
 import { Theme } from 'core/client/hooks'
 
-export const enableRenderPerformanceDebugging = false
-
 export const websocketsEnabled = false
 
 export const defaultTheme: Theme = 'system'
