@@ -1,5 +1,3 @@
-import './wdyr'
-
 import { NextUIProvider } from '@nextui-org/react'
 import { defaultTheme, description, forceTheme, preconnectURLs, title } from 'config'
 import { ThemeProvider } from 'next-themes'

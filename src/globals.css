@@ -1,1 +1,191 @@
-@import './core/globals.css';
+@import './core/client/globals.css';
+
+/******** Design tokens ********/
+
+/* Paddings */
+
+.d-padding-page {
+	@apply px-4 py-2;
+}
+.d-padding-section {
+	@apply px-4 py-2;
+}
+.d-padding-card {
+	@apply px-4 py-2;
+}
+.d-padding-button {
+	@apply px-4 py-2;
+}
+.d-padding-input {
+	@apply px-4 py-2;
+}
+.d-padding-chip {
+	@apply px-4 py-2;
+}
+
+/* Spacings */
+
+.d-spacing-page {
+	@apply gap-5;
+}
+.d-spacing-section {
+	@apply gap-3;
+}
+.d-spacing-card {
+	@apply gap-3;
+}
+.d-spacing-buttons {
+	@apply gap-5;
+}
+.d-spacing-inputs {
+	@apply gap-5;
+}
+.d-spacing-chips {
+	@apply gap-2;
+}
+
+/* Elevation */
+
+.d-elevation-0 {
+	box-shadow: none;
+}
+.d-elevation-2 {
+	box-shadow: 0px 2px 0px 0px theme(colors.neutral.900);
+}
+.d-elevation-4 {
+	box-shadow: 0px 4px 0px 0px theme(colors.neutral.900);
+}
+.d-elevation-6 {
+	box-shadow: 0px 6px 0px 0px theme(colors.neutral.900);
+}
+
+/* Surfaces */
+
+.d-surface-primary {
+	@apply bg-neutral-100 dark:bg-neutral-900;
+}
+.d-surface-minimal {
+	@apply bg-neutral-200 dark:bg-neutral-800;
+}
+.d-surface-secondary {
+	@apply bg-neutral-400 dark:bg-neutral-700;
+}
+.d-surface-contrast {
+	@apply bg-neutral-600 dark:bg-neutral-500;
+}
+.d-surface-heavy-contrast {
+	@apply bg-neutral-800 dark:bg-neutral-400;
+}
+.d-surface-invert {
+	@apply bg-neutral-900 dark:bg-neutral-100;
+}
+
+.d-surface-brand {
+	@apply bg-pink-100 dark:bg-pink-600;
+}
+.d-surface-brand-secondary {
+	@apply bg-pink-200 dark:bg-pink-500;
+}
+.d-surface-brand-contrast {
+	@apply bg-pink-400;
+}
+.d-surface-brand-heavy-contrast {
+	@apply bg-pink-500 dark:bg-pink-300;
+}
+
+/* Text */
+
+.d-text-primary {
+	@apply text-neutral-900 dark:text-neutral-100;
+}
+.d-text-secondary {
+	@apply text-neutral-800 dark:text-neutral-400;
+}
+.d-text-contrast {
+	@apply text-neutral-600;
+}
+.d-text-invert {
+	@apply text-neutral-100 dark:text-neutral-900;
+}
+.d-text-brand {
+	@apply text-neutral-900;
+}
+
+/* Icons */
+
+.d-icon-primary {
+	@apply d-text-primary;
+}
+.d-icon-invert {
+	@apply d-text-invert;
+}
+.d-icon-brand {
+	@apply d-text-brand;
+}
+
+/* Borders */
+
+.d-border-primary {
+	@apply border-2 border-neutral-900 dark:border-pink-800;
+}
+.d-border-secondary {
+	@apply border-2 border-neutral-400;
+}
+.d-border-invert {
+	@apply border-2 border-neutral-100 dark:border-neutral-900;
+}
+.d-border-brand {
+	@apply border-2 border-pink-500;
+}
+
+/* Buttons */
+
+.d-button-base {
+	transition: all 0.1s ease-in-out;
+	@apply text-small rounded-lg font-medium d-padding-button d-elevation-2 d-border-primary;
+
+	&:active {
+		@apply d-elevation-0;
+	}
+	&[data-focus-visible] {
+		@apply border-4 !outline-none;
+	}
+}
+.d-button-primary {
+	@apply d-button-base bg-pink-300 dark:bg-pink-800  text-neutral-900 dark:text-neutral-100;
+
+	&:hover,
+	&[data-focus-visible] {
+		@apply d-surface-brand-secondary;
+	}
+	&:active {
+		@apply d-surface-brand-contrast;
+	}
+	&:disabled {
+		@apply text-neutral-800;
+	}
+}
+.d-button-secondary {
+	@apply d-button-base d-surface-primary text-neutral-900 dark:text-neutral-100;
+
+	&:hover,
+	&[data-focus-visible] {
+		@apply d-surface-secondary;
+	}
+	&:active {
+		@apply d-surface-contrast;
+	}
+	&:disabled {
+		@apply text-neutral-800;
+	}
+}
+
+/* Inputs */
+
+.d-input-primary {
+	@apply d-button-base d-surface-minimal;
+
+	&:hover {
+		@apply d-surface-minimal;
+	}
+}

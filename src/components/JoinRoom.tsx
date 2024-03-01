@@ -21,7 +21,8 @@ const ForkMeButton = () => (
 			placement='right'
 			content='Fork me on GitHub'
 			classNames={{
-				base: 'py-2 px-4 shadow-xl text-black bg-gradient-to-br from-white to-neutral-400',
+				content:
+					'py-2 px-4 shadow-xl text-black bg-gradient-to-br from-white to-neutral-400',
 			}}
 		>
 			<Link href='https://github.com/cakeslice/Next-Hearts' target='_blank'>
@@ -72,6 +73,7 @@ export const useJoinRoom = (
 	const render = useCallback(
 		() => (
 			<Modal
+				disableAnimation
 				{...modalProps}
 				size='xs'
 				isOpen={opened && !forceClosed}

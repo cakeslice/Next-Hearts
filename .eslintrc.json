@@ -2,9 +2,16 @@
 	"extends": "next/core-web-vitals",
 	"plugins": ["eslint-plugin-no-inline-styles"],
 	"rules": {
+		"no-restricted-imports": ["error", "lodash"],
+
 		"react/self-closing-comp": "warn",
 		"no-restricted-globals": ["error", "location", "history", "event", "close"],
+		"no-inline-styles/no-inline-styles": 2,
 
-		"no-inline-styles/no-inline-styles": 2
+		"max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],
+		"max-lines-per-function": [
+			"error",
+			{ "max": 150, "skipComments": true, "skipBlankLines": true }
+		]
 	}
 }

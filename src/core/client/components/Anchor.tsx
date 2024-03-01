@@ -1,4 +1,4 @@
-import { useInViewContext } from 'core/context/InViewProvider'
+import { useInViewContext } from 'core/client/context/InViewProvider'
 import React, { Component, memo, useMemo } from 'react'
 import { useInView } from 'react-intersection-observer'
 
