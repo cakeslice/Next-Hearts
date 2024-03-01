@@ -14,7 +14,6 @@ export const WaitingForPlayers = ({ players, roomID }: { players: Player[]; room
 		<Modal
 			{...modalProps}
 			size='sm'
-			disableAnimation
 			isOpen={players.length > 0 && players.length < 4 && !!roomID}
 		>
 			<ModalContent>

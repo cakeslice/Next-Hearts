@@ -73,7 +73,6 @@ export const useJoinRoom = (
 	const render = useCallback(
 		() => (
 			<Modal
-				disableAnimation
 				{...modalProps}
 				size='xs'
 				isOpen={opened && !forceClosed}
