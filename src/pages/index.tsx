@@ -1,3 +1,4 @@
+import { Button, Link, Spacer } from '@nextui-org/react'
 import { PageWrapper } from 'components/PageWrapper'
 import { useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'
@@ -11,6 +12,12 @@ const Home: NextPage = () => {
 	return (
 		<PageWrapper>
 			<div>{data?.hello}</div>
+
+			<Spacer y={5} />
+
+			<Button as={Link} href='/dashboard'>
+				Dashboard
+			</Button>
 		</PageWrapper>
 	)
 }
