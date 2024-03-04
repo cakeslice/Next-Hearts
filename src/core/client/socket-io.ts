@@ -6,7 +6,7 @@ import { Socket, io } from 'socket.io-client'
 import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 
 export const socket = websocketsEnabled
-	? io(backendURL + '/core/ws', { autoConnect: false, transports: ['websocket'] })
+	? io({ path: backendURL + '/core/ws', autoConnect: false, transports: ['websocket'] })
 	: undefined
 export const SocketContext = React.createContext(socket)
 
