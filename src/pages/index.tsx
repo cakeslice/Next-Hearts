@@ -1,10 +1,10 @@
 import { PageWrapper } from 'components/PageWrapper'
 import { useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'
-import { Query, Response } from 'pages/api/hello'
+import { Query, QuerySchema, Response } from 'pages/api/hello'
 
 const Home: NextPage = () => {
-	const { query } = useQueryParams<Query>()
+	const { query } = useQueryParams(QuerySchema)
 
 	const { data } = useApi<Response, Query, {}>({ path: 'hello', query })
 

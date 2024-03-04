@@ -1,10 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequestTyped } from 'core/server/types'
+import { validate } from 'core/server/zod'
 import { Company, companiesData, zodCategories } from 'models/company'
 import type { NextApiResponse } from 'next'
 import { z } from 'zod'
 
-const QuerySchema = z.object({
+export const QuerySchema = z.object({
 	search: z.optional(z.string()),
 	categories: zodCategories,
 })
@@ -20,9 +20,8 @@ export type Response =
 
 // Next.js endpoints accept all HTTP methods (GET, POST...)
 export default function handler(req: NextApiRequestTyped<Query>, res: NextApiResponse<Response>) {
-	// TODO: Move to middleware and also .setHeader('message', error...)
-	const query = QuerySchema.parse(req.query)
-	if (!query) return res.status(400).send(undefined)
+	const query = validate({ schema: QuerySchema, obj: req.query, res })
+	if (!query) return
 
 	let output: Response = { companies: companiesData }
 

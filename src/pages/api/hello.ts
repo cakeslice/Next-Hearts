@@ -2,7 +2,7 @@ import { NextApiRequestTyped } from 'core/server/types'
 import type { NextApiResponse } from 'next'
 import { z } from 'zod'
 
-const QuerySchema = z.object({
+export const QuerySchema = z.object({
 	search: z.optional(z.string()),
 })
 export type Query = z.infer<typeof QuerySchema>

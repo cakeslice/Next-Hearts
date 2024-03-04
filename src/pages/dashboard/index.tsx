@@ -18,7 +18,7 @@ import { Desktop, Mobile, useBreakpoint } from 'core/client/components/MediaQuer
 import { ThemeToggle } from 'core/client/components/ThemeToggle'
 import type { NextPage } from 'next'
 import { Body as AddDataBody } from 'pages/api/add-data'
-import { Query as CompanyQuery, Response } from 'pages/api/companies'
+import { Query as CompanyQuery, QuerySchema as CompanySchema, Response } from 'pages/api/companies'
 import { useMemo, useState } from 'react'
 import { Client } from 'react-hydration-provider'
 
@@ -32,7 +32,7 @@ const columns = [
 const Dashboard: NextPage = () => {
 	const [filtersOpen, setFiltersOpen] = useState(false)
 
-	const { query } = useQueryParams<CompanyQuery>()
+	const { query } = useQueryParams(CompanySchema)
 
 	const { data, isLoading } = useApi<Response, CompanyQuery, {}>({ path: 'companies', query })
 

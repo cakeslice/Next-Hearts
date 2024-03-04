@@ -2,8 +2,10 @@ import { useDebounce } from '@uidotdev/usehooks'
 import { socket } from 'core/client/socket-io'
 import { backendURL } from 'core/env'
 import { useRouter } from 'next/router'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
+import { useHydrated } from 'react-hydration-provider'
 import useSWR from 'swr'
+import { z } from 'zod'
 
 class RequestError extends Error {
 	status = 0
@@ -106,6 +108,7 @@ export function useApi<Response, QueryParams, Body extends object | undefined>({
 	method,
 	external,
 	options,
+	shouldFetch = true,
 }: {
 	path: string
 	query?: QueryParams
@@ -113,6 +116,7 @@ export function useApi<Response, QueryParams, Body extends object | undefined>({
 	method?: Method
 	external?: boolean
 	options?: RequestInit
+	shouldFetch?: boolean
 }) {
 	const router = useRouter()
 
@@ -120,7 +124,7 @@ export function useApi<Response, QueryParams, Body extends object | undefined>({
 	const _query = query ? '?' + new URLSearchParams(query).toString() : undefined
 
 	const { data, mutate, isLoading, error } = useSWR<Response, RequestError>(
-		router.isReady ? [_path, _query, body, method, options] : undefined,
+		router.isReady && shouldFetch ? [_path, _query, body, method, options] : undefined,
 		// @ts-ignore
 		external ? fetcher : backendFetcher
 	)
@@ -130,14 +134,18 @@ export function useApi<Response, QueryParams, Body extends object | undefined>({
 	return { data, refetch: mutate, isLoading: debouncedIsLoading, error }
 }
 
-export function useQueryParams<T>() {
-	const router = useRouter()
-	const query = router.query as T
+export const useQueryParams = <T extends z.Schema>(schema: T) => {
+	const { query, isReady: queryReady, replace } = useRouter()
+
+	const parsedQuery = useMemo(
+		() => schema.parse(query) as z.infer<typeof schema>,
+		[query, schema]
+	)
 
 	const setQuery = useCallback(
-		(newQueryParams: T) => {
+		(newQueryParams: z.infer<typeof schema>) => {
 			const params = {
-				...router.query,
+				...parsedQuery,
 				...newQueryParams,
 			}
 
@@ -148,8 +156,8 @@ export function useQueryParams<T>() {
 				queryParams[p] = value
 			})
 
-			if (router.isReady) {
-				router.replace(
+			if (queryReady) {
+				replace(
 					{
 						pathname: window.location.pathname,
 						query: queryParams,
@@ -161,10 +169,12 @@ export function useQueryParams<T>() {
 				)
 			}
 		},
-		[router]
+		[queryReady, parsedQuery, replace]
 	)
 
-	return { queryReady: router.isReady, query, setQuery }
+	const hydrated = useHydrated()
+
+	return { queryReady: hydrated && queryReady, query: parsedQuery, setQuery }
 }
 
 export const getQueryString = (query: any) => new URLSearchParams(query).toString()
