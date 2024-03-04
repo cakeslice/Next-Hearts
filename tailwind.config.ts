@@ -128,19 +128,10 @@ const animations = {
 }
 
 const safelist = [
-	'bg-purple-300',
-	'bg-yellow-300',
-	'bg-green-300',
-	'bg-blue-300',
-	'bg-pink-300',
-	'bg-red-300',
-
-	'text-purple-400',
-	'text-yellow-400',
-	'text-green-400',
-	'text-blue-400',
-	'text-pink-400',
-	'text-red-400',
+	{
+		pattern: /bg-(red|green|blue|orange|pink|cyan)-(300|700)/,
+		variants: ['dark'],
+	},
 ]
 
 export const config: Config = {
