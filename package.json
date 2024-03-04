@@ -8,6 +8,7 @@
 	},
 	"scripts": {
 		"dev": "next dev -p 4000",
+		"translations:extract": "lingui extract --clean",
 		"analyze-build": "cross-env-shell ANALYZE=true next build",
 		"build": "next build",
 		"build-standalone": "cross-env-shell STANDALONE=true next build",
@@ -24,6 +25,8 @@
 	"dependencies": {
 		"@heroicons/react": "^2.1.1",
 		"@hookform/resolvers": "^3.3.4",
+		"@lingui/core": "^4.7.1",
+		"@lingui/react": "^4.7.1",
 		"@next/third-parties": "^14.1.0",
 		"@nextui-org/react": "^2.2.9",
 		"@uidotdev/usehooks": "^2.4.1",
@@ -49,6 +52,10 @@
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.4.1",
+		"@lingui/cli": "^4.7.1",
+		"@lingui/loader": "^4.7.1",
+		"@lingui/macro": "^4.7.1",
+		"@lingui/swc-plugin": "^4.0.6",
 		"@next/bundle-analyzer": "^14.1.0",
 		"@testing-library/jest-dom": "^6.4.2",
 		"@testing-library/react": "^14.2.1",

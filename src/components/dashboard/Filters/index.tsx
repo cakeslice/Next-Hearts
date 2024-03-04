@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import { Checkbox, Chip } from '@nextui-org/react'
 import { useQueryParams } from 'core/client/api'
 import { Input } from 'core/client/components/Input'
@@ -15,7 +16,7 @@ export const Filters = () => {
 					data-testid='dashboard.Filters.Input-search'
 					className='w-auto grow min-w-[250px] max-w-[400px]'
 					variant='bordered'
-					placeholder='Search by company name'
+					placeholder={t`Search by company name`}
 					defaultValue={query.search}
 					classNames={{
 						inputWrapper: 'd-input-primary',

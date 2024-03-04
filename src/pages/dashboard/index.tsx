@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import {
 	Button,
 	Pagination,
@@ -15,6 +16,7 @@ import { Cell } from 'components/dashboard/Cell'
 import DashboardWrapper from 'components/dashboard/DashboardWrapper'
 import { Filters } from 'components/dashboard/Filters'
 import { request, useApi, useQueryParams } from 'core/client/api'
+import { LangSwitcher } from 'core/client/components/LangSwitcher'
 import { Desktop, Mobile, useBreakpoint } from 'core/client/components/MediaQuery'
 import { ThemeToggle } from 'core/client/components/ThemeToggle'
 import { usePagination } from 'core/client/hooks'
@@ -73,17 +75,21 @@ const Dashboard: NextPage = () => {
 									await sendData()
 								}}
 							>
-								Save
+								{t`Save`}
 							</Button>
+							<LangSwitcher />
 						</div>
 					</Desktop>
 					<Mobile>
-						<Button
-							className='d-button-secondary'
-							onClick={() => setFiltersOpen((o) => !o)}
-						>
-							Filters
-						</Button>
+						<div className='flex gap-2'>
+							<Button
+								className='d-button-secondary'
+								onClick={() => setFiltersOpen((o) => !o)}
+							>
+								{t`Filters`}
+							</Button>
+							<LangSwitcher />
+						</div>
 						<ThemeToggle />
 					</Mobile>
 
@@ -137,7 +143,7 @@ const Dashboard: NextPage = () => {
 
 						<TableBody
 							isLoading={isLoading}
-							emptyContent='No results...'
+							emptyContent={t`No results...`}
 							loadingContent={<Spinner />}
 							items={data?.companies || []}
 						>
@@ -157,3 +163,5 @@ const Dashboard: NextPage = () => {
 }
 
 export default Dashboard
+
+export { getStaticProps } from 'translations/utils'
