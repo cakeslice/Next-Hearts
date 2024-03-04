@@ -1,5 +1,6 @@
 import { socketBroadcast, socketMessage } from 'core/server/socket-io'
 import { NextApiRequestTyped } from 'core/server/types'
+import { validate } from 'core/server/zod'
 import { cardsList } from 'models/card'
 import { PlayCardClient, applyFinishedTurn, applyPlayedCard, isValidMove } from 'models/game'
 import { getNextPlayer } from 'models/player'
@@ -7,7 +8,7 @@ import { getPlayer, getRoom, saveRoom } from 'models/room'
 import { NextApiResponse } from 'next'
 import { z } from 'zod'
 
-const QuerySchema = z.object({
+export const QuerySchema = z.object({
 	room: z.string(),
 })
 export type Query = z.infer<typeof QuerySchema>
@@ -24,12 +25,10 @@ export default async function handler(
 	req: NextApiRequestTyped<Query, Body>,
 	res: NextApiResponse<Response>
 ) {
-	const query = req.query
-	const body = req.body
-
-	// TODO: Move to middleware and also .setHeader('message', error...)
-	if (!QuerySchema.parse(query)) return res.status(400).send({})
-	if (!BodySchema.parse(body)) return res.status(400).send({})
+	const query = validate({ schema: QuerySchema, obj: req.query, res })
+	if (!query) return
+	const body = validate({ schema: BodySchema, obj: req.body, res })
+	if (!body) return
 
 	const room = getRoom(req.query.room)
 	if (!room) {

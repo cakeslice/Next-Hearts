@@ -1,5 +1,6 @@
 import { socketBroadcast } from 'core/server/socket-io'
 import { NextApiRequestTyped } from 'core/server/types'
+import { validate } from 'core/server/zod'
 import { PlayCardClient, newGame } from 'models/game'
 import { Room, addRoom, getPlayer, getRoom, saveRoom } from 'models/room'
 import { NextApiResponse } from 'next'
@@ -59,10 +60,10 @@ export default function handler(
 	req: NextApiRequestTyped<undefined, Body>,
 	res: NextApiResponse<Response>
 ) {
-	const { roomID, playerID, name } = req.body
+	const body = validate({ schema: BodySchema, obj: req.body, res })
+	if (!body) return
 
-	// TODO: Move to middleware and also .setHeader('message', error...)
-	if (!BodySchema.parse(req.body)) return res.status(400).send(undefined)
+	const { roomID, playerID, name } = body
 
 	let room: Room | undefined
 

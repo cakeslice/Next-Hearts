@@ -15,37 +15,65 @@ import { PageWrapper } from 'components/PageWrapper'
 import { PlayingCard } from 'components/PlayingCard'
 import { request, useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'
-import { Body as GameBody, Response as GameResponse, Query } from 'pages/api/game'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Body as GameBody, Response as GameResponse, Query, QuerySchema } from 'pages/api/game'
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { CardArea } from 'components/CardArea'
 import { Body as PlayCardBody, Response as PlayCardResponse } from './api/play-card'
 
+import { CardAreas } from 'components/CardAreas'
 import { useJoinRoom } from 'components/JoinRoom'
 import { PlayerHand } from 'components/PlayerHand'
 import { useScoreboard } from 'components/Scoreboard'
 import { WaitingForPlayers } from 'components/WaitingForPlayers'
 import { useSocketChannel } from 'core/client/socket-io'
 import { Card } from 'models/card'
-import { PlayCardClient, PlayCardServer, applyPlayedCard } from 'models/game'
-import {
-	Player,
-	PlayerPosition,
-	getNextPlayer,
-	getPlayerID,
-	getPlayerWithHighestCard,
-	getPreviousPlayer,
-} from 'models/player'
+import { Event, PlayCardClient, PlayCardServer, applyPlayedCard } from 'models/game'
+import { getPlayerID, getPlayerWithHighestCard } from 'models/player'
 import { playSound } from 'utils/client'
 
-const localPlayerArea = 'player_1_area'
+export const localPlayerArea = 'player_1_area'
 
 export type Animation = 'get-cards'
+
+const gameEvent = ({
+	event,
+	setAnimation,
+	showScoreboard,
+}: {
+	event: Event
+	setAnimation: Dispatch<SetStateAction<Animation | undefined>>
+	showScoreboard: () => void
+}) => {
+	switch (event) {
+		case 'card-played':
+			playSound('play')
+			return
+		case 'turn-over':
+			setAnimation('get-cards')
+			playSound('turn_end')
+			return
+		case 'turn-start':
+			setAnimation(undefined)
+			return
+		case 'round-over':
+			showScoreboard()
+			return
+		case 'hearts-broken':
+			playSound('break')
+			return
+		case 'queen-played':
+			playSound('secret')
+			return
+		case 'round-start':
+			playSound('got_cards')
+			return
+	}
+}
 
 const Game: NextPage = () => {
 	const playerID = useMemo(() => getPlayerID(), [])
 
-	const { query, queryReady } = useQueryParams<Query>()
+	const { query, queryReady } = useQueryParams(QuerySchema)
 	const { data, refetch, error } = useApi<GameResponse, Query, GameBody>({
 		path: 'game',
 		query,
@@ -54,16 +82,19 @@ const Game: NextPage = () => {
 	const players = useMemo(() => data?.players || [], [data?.players])
 	const localPlayer = useMemo(() => players.find((p) => p.isLocal), [players])
 
-	const playCard = async (body: PlayCardBody) => {
-		const { result, error } = await request<PlayCardResponse, Query, PlayCardBody>({
-			path: 'play-card',
-			query: query,
-			body: body,
-		})
-		if (error) alert(error.message)
+	const playCard = useCallback(
+		async (body: PlayCardBody) => {
+			const { result, error } = await request<PlayCardResponse, Query, PlayCardBody>({
+				path: 'play-card',
+				query: query,
+				body: body,
+			})
+			if (error) alert(error.message)
 
-		return result
-	}
+			return result
+		},
+		[query]
+	)
 
 	//
 
@@ -71,32 +102,7 @@ const Game: NextPage = () => {
 		connect: () => refetch(),
 		kitty: (msg) => console.log('hello from server: ' + JSON.stringify(msg)),
 		'update-game': () => refetch(),
-		'game-event': (event) => {
-			switch (event) {
-				case 'card-played':
-					playSound('play')
-					return
-				case 'turn-over':
-					setAnimation('get-cards')
-					playSound('turn_end')
-					return
-				case 'turn-start':
-					setAnimation(undefined)
-					return
-				case 'round-over':
-					showScoreboard()
-					return
-				case 'hearts-broken':
-					playSound('break')
-					return
-				case 'queen-played':
-					playSound('secret')
-					return
-				case 'round-start':
-					playSound('got_cards')
-					return
-			}
-		},
+		'game-event': (event) => gameEvent({ event, setAnimation, showScoreboard }),
 	})
 
 	const [animation, setAnimation] = useState<Animation>()
@@ -108,97 +114,45 @@ const Game: NextPage = () => {
 		[localPlayer, animation]
 	)
 
-	function handleDragStart({ active }: DragStartEvent) {
-		if (!interactive) return
+	const handleDragEnd = useCallback(
+		async ({ active, over }: DragEndEvent) => {
+			if (!interactive) return
 
-		setDraggingCard(active.id.toString() as Card)
-	}
-	async function handleDragEnd({ active, over }: DragEndEvent) {
-		if (!interactive) return
+			setDraggingCard(undefined)
 
-		setDraggingCard(undefined)
+			if (localPlayer) {
+				const willPlayCard = over?.id.toString() === localPlayerArea
+				const card = active.id.toString() as Card
 
-		if (localPlayer) {
-			const willPlayCard = over?.id.toString() === localPlayerArea
-			const card = active.id.toString() as Card
+				if (willPlayCard && card) {
+					const playedCards = (players?.map((p) => p.playedCard).length || 0) + 1
+					const playerWithHighestCard =
+						playedCards === 4 && data?.startingCard
+							? getPlayerWithHighestCard(players, data.startingCard)
+							: undefined
 
-			if (willPlayCard && card) {
-				const playedCards = (players?.map((p) => p.playedCard).length || 0) + 1
-				const playerWithHighestCard =
-					playedCards === 4 && data?.startingCard
-						? getPlayerWithHighestCard(players, data.startingCard)
-						: undefined
+					// Update cache with prediction of what the server will send but don't refetch yet
+					await refetch(
+						{
+							...data,
+							players: players?.map((p) => {
+								if (!p.isLocal) return p
 
-				// Update cache with prediction of what the server will send but don't refetch yet
-				await refetch(
-					{
-						...data,
-						players: players?.map((p) => {
-							if (!p.isLocal) return p
+								return applyPlayedCard(p, card)
+							}),
+							playerToStartNextTurn: playerWithHighestCard?.publicID,
+						},
+						false
+					)
 
-							return applyPlayedCard(p, card)
-						}),
-						playerToStartNextTurn: playerWithHighestCard?.publicID,
-					},
-					false
-				)
-
-				await playCard({ playerID, card })
+					await playCard({ playerID, card })
+				}
 			}
-		}
-	}
-	function handleDragOver({ over }: DragOverEvent) {
-		if (!interactive) return
-
-		setDragHoverArea(over?.id.toString())
-	}
+		},
+		[data, interactive, localPlayer, playCard, playerID, players, refetch]
+	)
 
 	const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
-
-	const getPlayer = useCallback(
-		(position: PlayerPosition) => {
-			let p: Player | undefined
-
-			if (position === 'bottom') p = localPlayer
-			if (position === 'left') {
-				p = getPreviousPlayer(players, localPlayer)
-			}
-			if (position === 'right') {
-				p = getNextPlayer(players, localPlayer)
-			}
-			if (position === 'top') {
-				p = getNextPlayer(players, getNextPlayer(players, localPlayer))
-			}
-
-			return {
-				position,
-				player: p,
-			}
-		},
-		[players, localPlayer]
-	)
-	const getPosition = useCallback(
-		(playerPublicID?: string): PlayerPosition => {
-			const player = players.find((p) => p.publicID === playerPublicID)
-			const previousPlayer = getPreviousPlayer(players, localPlayer)
-			const nextPlayer = getNextPlayer(players, localPlayer)
-			if (player === localPlayer) return 'bottom'
-			if (player === previousPlayer) {
-				return 'left'
-			}
-			if (player === nextPlayer) {
-				return 'right'
-			}
-
-			return 'top'
-		},
-		[players, localPlayer]
-	)
-
-	const nextPlayerPosition = useMemo(
-		() => (animation === 'get-cards' ? getPosition(data?.playerToStartNextTurn) : undefined),
-		[data, animation, getPosition]
-	)
 
 	const [scoreboard, showScoreboard] = useScoreboard({
 		players,
@@ -220,14 +174,6 @@ const Game: NextPage = () => {
 		}
 	}, [error, queryReady, query, showJoinRoom])
 
-	const animationData = useMemo(
-		() => ({
-			animation,
-			animateToPosition: nextPlayerPosition,
-		}),
-		[animation, nextPlayerPosition]
-	)
-
 	return (
 		<PageWrapper>
 			{scoreboard()}
@@ -238,17 +184,23 @@ const Game: NextPage = () => {
 				<DndContext
 					collisionDetection={pointerWithin}
 					sensors={sensors}
-					onDragStart={handleDragStart}
+					onDragStart={({ active }: DragStartEvent) => {
+						if (!interactive) return
+
+						setDraggingCard(active.id.toString() as Card)
+					}}
 					onDragEnd={handleDragEnd}
-					onDragOver={handleDragOver}
+					onDragOver={({ over }: DragOverEvent) => {
+						if (!interactive) return
+
+						setDragHoverArea(over?.id.toString())
+					}}
 				>
-					<CardArea animationData={animationData} playerData={getPlayer('top')} />
-					<CardArea animationData={animationData} playerData={getPlayer('left')} />
-					<CardArea animationData={animationData} playerData={getPlayer('right')} />
-					<CardArea
-						animationData={animationData}
-						playerData={getPlayer('bottom')}
-						id={localPlayerArea}
+					<CardAreas
+						players={players}
+						localPlayer={localPlayer}
+						animation={animation}
+						playerToStartNextTurn={data?.playerToStartNextTurn}
 					/>
 
 					<PlayerHand

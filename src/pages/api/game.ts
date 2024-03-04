@@ -1,5 +1,6 @@
 import { joinSocketRoom, setupSocketEvents } from 'core/server/socket-io'
 import { NextApiRequestTyped } from 'core/server/types'
+import { validate } from 'core/server/zod'
 import { Card } from 'models/card'
 import { PlayCardServer } from 'models/game'
 import { Player } from 'models/player'
@@ -7,8 +8,8 @@ import { getPlayer, getRoom } from 'models/room'
 import { NextApiResponse } from 'next'
 import { z } from 'zod'
 
-const QuerySchema = z.object({
-	room: z.string(),
+export const QuerySchema = z.object({
+	room: z.string().optional(),
 })
 export type Query = z.infer<typeof QuerySchema>
 
@@ -31,12 +32,12 @@ export default function handler(
 	req: NextApiRequestTyped<Query, Body>,
 	res: NextApiResponse<Response>
 ) {
-	const query = req.query
-	const body = req.body
+	const query = validate({ schema: QuerySchema, obj: req.query, res })
+	if (!query) return
+	const body = validate({ schema: BodySchema, obj: req.body, res })
+	if (!body) return
 
-	// TODO: Move to middleware and also .setHeader('message', error...)
-	if (!QuerySchema.parse(query)) return res.status(400).send(undefined)
-	if (!BodySchema.parse(body)) return res.status(400).send(undefined)
+	if (!query.room) return res.status(404).send(undefined)
 
 	let room = getRoom(query.room)
 	if (!room) return res.status(404).send(undefined)
@@ -59,7 +60,7 @@ export default function handler(
 						// Don't send player ID or their cards to other players
 						id: '',
 						hand: [],
-				  }
+					}
 		),
 		startingCard: room?.startingCard,
 		isHeartsBroken: room?.isHeartsBroken,
