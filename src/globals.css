@@ -183,7 +183,7 @@
 /* Inputs */
 
 .d-input-primary {
-	@apply d-button-base d-surface-minimal;
+	@apply d-button-base d-surface-minimal min-h-[40px] h-[40px];
 
 	&:hover {
 		@apply d-surface-minimal;
