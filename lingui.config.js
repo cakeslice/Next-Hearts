@@ -1,6 +1,6 @@
 const { formatter } = require('@lingui/format-po')
 
-const locales = ['en-us', 'de-de']
+const locales = ['en-us', 'de']
 
 if (process.env.NODE_ENV !== 'production') {
 	locales.push('pseudo')

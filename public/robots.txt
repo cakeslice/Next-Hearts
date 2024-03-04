@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /en-us/en-us/
+Disallow: /en-us/de/
+Disallow: /de/en-us/
+Disallow: /de/de/
+
+# Host
+Host: https://next-js-boilerplate-mu-nine.vercel.app
+
+# Sitemaps
+Sitemap: https://next-js-boilerplate-mu-nine.vercel.app/sitemap.xml

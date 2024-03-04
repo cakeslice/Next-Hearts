@@ -25,8 +25,8 @@ msgstr "German"
 msgid "No results..."
 msgstr "No results..."
 
-msgid "Page Not Found"
-msgstr "Page Not Found"
+msgid "Not Found"
+msgstr "Not Found"
 
 msgid "Pseudo"
 msgstr "Pseudo"

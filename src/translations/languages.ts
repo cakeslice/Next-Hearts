@@ -8,7 +8,7 @@ interface Languages {
 	rtl: boolean
 }
 
-export type LOCALES = 'en-us' | 'de-de' | 'pseudo'
+export type LOCALES = 'en-us' | 'de' | 'pseudo'
 
 export const languages: Languages[] = [
 	{
@@ -18,7 +18,7 @@ export const languages: Languages[] = [
 		rtl: false,
 	},
 	{
-		locale: 'de-de',
+		locale: 'de',
 		msg: msg`German`,
 		territory: 'DE',
 		rtl: false,

@@ -25,7 +25,7 @@ msgstr ""
 msgid "No results..."
 msgstr ""
 
-msgid "Page Not Found"
+msgid "Not Found"
 msgstr ""
 
 msgid "Pseudo"
