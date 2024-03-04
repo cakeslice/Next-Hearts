@@ -1,4 +1,5 @@
 import { NextApiRequestTyped } from 'core/server/types'
+import { validate } from 'core/server/zod'
 import type { NextApiResponse } from 'next'
 import { z } from 'zod'
 
@@ -12,9 +13,8 @@ export type Response = {
 } | void
 
 export default function handler(req: NextApiRequestTyped<Query>, res: NextApiResponse<Response>) {
-	const query = req.query
-
-	if (!QuerySchema.parse(query)) return res.status(400).send()
+	const query = validate({ schema: QuerySchema, obj: req.query, res })
+	if (!query) return
 
 	const search = query.search
 
