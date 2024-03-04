@@ -13,13 +13,11 @@ export const QuerySchema = z
 	.and(getPaginationSchema())
 export type Query = z.infer<typeof QuerySchema>
 
-export type Response = (
-	| {
+export type Response =
+	| ({
 			companies: Company[]
-	  }
+	  } & PaginationResponse)
 	| undefined
-) &
-	PaginationResponse
 
 export default function handler(req: NextApiRequestTyped<Query>, res: NextApiResponse<Response>) {
 	const query = validate({ schema: QuerySchema, obj: req.query, res })
