@@ -29,6 +29,7 @@ export function validate<T extends z.Schema>({
 }) {
 	const parsedQuery = schema.safeParse(obj)
 	if (!parsedQuery.success) {
+		res.setHeader('message', parsedQuery.error.errors[0].message)
 		res.status(400).send(undefined)
 		return
 	}
