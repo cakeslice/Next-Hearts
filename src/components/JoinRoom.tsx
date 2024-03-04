@@ -4,12 +4,14 @@ import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './JoinRoom.module.css'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Input, Link, Modal, ModalContent, Spacer, Tooltip } from '@nextui-org/react'
 import clsx from 'clsx'
 import { title } from 'config'
 import { request } from 'core/client/api'
 import { Body, Response } from 'pages/api/join-game'
 import { modalProps } from 'utils/consts'
+import { z } from 'zod'
 import card2 from '../../public/assets/cards/ace_of_hearts.svg'
 import card1 from '../../public/assets/cards/queen_of_spades.svg'
 import githubIcon from '../../public/assets/github-mark.svg'
@@ -52,6 +54,10 @@ const Logo = () => (
 	</div>
 )
 
+const formSchema = z.object({
+	name: z.string().min(1),
+})
+
 export const useJoinRoom = (
 	playerID: string,
 	refetch: () => void,
@@ -66,9 +72,8 @@ export const useJoinRoom = (
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
-	} = useForm<{ name: string }>()
+	} = useForm({ resolver: zodResolver(formSchema) })
 
 	const render = useCallback(
 		() => (
@@ -111,11 +116,8 @@ export const useJoinRoom = (
 							<Spacer y={3} />
 
 							<Input
-								{...register('name', {
-									required: '*',
-								})}
+								{...register('name')}
 								autoFocus
-								required
 								isInvalid={!!errors.name}
 								variant='bordered'
 								maxLength={20}

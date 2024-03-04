@@ -10,7 +10,7 @@ import { z } from 'zod'
 const BodySchema = z.object({
 	roomID: z.string().optional(),
 	playerID: z.string(),
-	name: z.string(),
+	name: z.string().min(1),
 })
 export type Body = z.infer<typeof BodySchema>
 
