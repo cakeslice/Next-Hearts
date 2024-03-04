@@ -143,7 +143,7 @@ export const useQueryParams = <T extends z.Schema>(schema: T) => {
 	)
 
 	const setQuery = useCallback(
-		(newQueryParams: z.infer<typeof schema>) => {
+		(newQueryParams: Partial<z.infer<typeof schema>>) => {
 			const params = {
 				...parsedQuery,
 				...newQueryParams,
