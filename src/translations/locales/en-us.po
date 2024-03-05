@@ -13,6 +13,9 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "Back to Home"
+msgstr "Back to Home"
+
 msgid "English"
 msgstr "English"
 
@@ -25,8 +28,11 @@ msgstr "German"
 msgid "No results..."
 msgstr "No results..."
 
-msgid "Not Found"
-msgstr "Not Found"
+msgid "PAGE NOT FOUND"
+msgstr "PAGE NOT FOUND"
+
+msgid "Page not found!"
+msgstr "Page not found!"
 
 msgid "Pseudo"
 msgstr "Pseudo"
@@ -36,3 +42,6 @@ msgstr "Save"
 
 msgid "Search by company name"
 msgstr "Search by company name"
+
+msgid "The page you were looking for doesn't exist"
+msgstr "The page you were looking for doesn't exist"

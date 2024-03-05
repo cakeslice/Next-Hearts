@@ -2,6 +2,8 @@ import { Theme } from 'core/client/hooks'
 
 export const websocketsEnabled = false
 
+export const useLingui = true
+
 export const defaultTheme: Theme = 'system'
 export const forceTheme: Theme | undefined = undefined
 
