@@ -9,7 +9,7 @@ export const playSound = (sound: Sound) => {
 	if (sound === 'play') name = 'play' + getRandomInt(1, 5)
 	if (sound === 'turn_end') name = 'turn_end' + getRandomInt(1, 3)
 
-	const s = new Audio(`https://cloud.cakeslice.dev/open-hearts/${name}.mp3`)
+	const s = new Audio(`https://cakeslice-public.s3.fr-par.scw.cloud/open-hearts/${name}.mp3`)
 	s.volume = sound === 'break' ? 0.5 : 1
 	s.play()
 }
