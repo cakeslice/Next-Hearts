@@ -1,4 +1,6 @@
 import { useInView } from 'core/client/context/InViewProvider'
+import { useInView as useInViewObserver } from 'react-intersection-observer'
+
 import React, { Component, memo, useMemo } from 'react'
 
 type AnchorElementProps = {
@@ -69,7 +71,7 @@ const AnchorComponent = ({
 	const margin = useMemo(() => (-70 + (triggerOffset || 0)).toString(), [triggerOffset])
 	const rootMargin = `0px 0px ${margin}% 0px`
 
-	const { ref, inView, entry } = useInView({
+	const { ref } = useInViewObserver({
 		rootMargin,
 		onChange: (inView) => {
 			if (inView) {
