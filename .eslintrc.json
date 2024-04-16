@@ -6,6 +6,7 @@
 
 		"react/self-closing-comp": "warn",
 		"no-restricted-globals": ["error", "location", "history", "event", "close"],
+		"react/jsx-no-constructed-context-values": "error",
 		"no-inline-styles/no-inline-styles": 2,
 
 		"max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],

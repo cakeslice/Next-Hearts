@@ -1,6 +1,5 @@
-import { useInViewContext } from 'core/client/context/InViewProvider'
+import { useInView } from 'core/client/context/InViewProvider'
 import React, { Component, memo, useMemo } from 'react'
-import { useInView } from 'react-intersection-observer'
 
 type AnchorElementProps = {
 	id: string
@@ -89,7 +88,7 @@ const AnchorComponent = ({
 		},
 	})
 
-	const [, setInView] = useInViewContext()
+	const [, setInView] = useInView()
 
 	return (
 		<div className={className} style={style} ref={ref}>
