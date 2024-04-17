@@ -3,11 +3,12 @@
 	"plugins": ["eslint-plugin-no-inline-styles"],
 	"rules": {
 		"no-restricted-imports": ["error", "lodash"],
+		"no-restricted-globals": ["error", "location", "history", "event", "close"],
+		"no-inline-styles/no-inline-styles": 2,
 
 		"react/self-closing-comp": "warn",
-		"no-restricted-globals": ["error", "location", "history", "event", "close"],
 		"react/jsx-no-constructed-context-values": "error",
-		"no-inline-styles/no-inline-styles": 2,
+		"react/no-unstable-nested-components": "error",
 
 		"max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],
 		"max-lines-per-function": [
