@@ -9,6 +9,7 @@
 		"react/self-closing-comp": "warn",
 		"react/jsx-no-constructed-context-values": "error",
 		"react/no-unstable-nested-components": "error",
+		"react/no-unescaped-entities": "error",
 
 		"max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],
 		"max-lines-per-function": [
