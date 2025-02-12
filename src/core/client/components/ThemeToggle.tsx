@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from '@heroicons/react/20/solid'
-import { Switch } from "@heroui/react"
+import { Switch } from '@heroui/react'
 import { useDark } from 'core/client/hooks'
 import { useTheme } from 'next-themes'
 import { Client } from 'react-hydration-provider'
@@ -12,7 +12,9 @@ export const ThemeToggle = () => {
 		<Client>
 			<Switch
 				defaultSelected={dark}
-				onClick={() => setTheme(dark ? 'light' : 'dark')}
+				onValueChange={(enabled) => {
+					setTheme(!enabled ? 'light' : 'dark')
+				}}
 				size='lg'
 				color='default'
 				classNames={{
