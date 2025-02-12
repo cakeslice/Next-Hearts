@@ -13,6 +13,11 @@ module.exports = withPlugins(
 		output: process.env.STANDALONE ? 'standalone' : process.env.EXPORT ? 'export' : undefined,
 		reactStrictMode: true,
 		transpilePackages: ['@uidotdev', '@heroicons'],
+		...(process.env.EXPORT === 'true' && {
+			images: {
+				loader: 'custom',
+			},
+		}),
 		experimental: {
 			swcPlugins: [['@lingui/swc-plugin', {}]],
 		},
