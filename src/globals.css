@@ -1,5 +1,24 @@
 @import './core/client/globals.css';
 
+h1 {
+	@apply text-6xl mt-0 mb-2;
+}
+h2 {
+	@apply text-5xl mt-0 mb-2;
+}
+h3 {
+	@apply text-4xl mt-0 mb-2;
+}
+h4 {
+	@apply text-3xl mt-0 mb-2;
+}
+h5 {
+	@apply text-2xl mt-0 mb-2;
+}
+h6 {
+	@apply text-xl mt-0 mb-2;
+}
+
 /******** Design tokens ********/
 
 /* Paddings */
