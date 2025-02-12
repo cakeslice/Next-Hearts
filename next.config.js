@@ -12,7 +12,6 @@ module.exports = withPlugins(
 	{
 		output: process.env.STANDALONE ? 'standalone' : process.env.EXPORT ? 'export' : undefined,
 		reactStrictMode: true,
-		swcMinify: true,
 		transpilePackages: ['@uidotdev', '@heroicons'],
 		experimental: {
 			swcPlugins: [['@lingui/swc-plugin', {}]],

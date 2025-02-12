@@ -1,9 +1,9 @@
+import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { isProd } from 'core/env'
 import { socketBroadcast } from 'core/server/socket-io'
 import { Card, getShuffledCards, sortCards } from 'models/card'
 import { Player, getNextPlayer, getPlayerWithHighestCard } from 'models/player'
 import { Room, getRoom, saveRoom } from 'models/room'
-import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 
 export type Event =
 	| 'card-played'

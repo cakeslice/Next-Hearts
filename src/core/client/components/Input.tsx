@@ -1,4 +1,4 @@
-import { InputProps, Input as NInput } from '@nextui-org/react'
+import { InputProps, Input as NInput } from "@heroui/react"
 import debounce from 'lodash/debounce'
 import { memo } from 'react'
 

@@ -1,9 +1,9 @@
+import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { websocketsEnabled } from 'config'
 import { request } from 'core/client/api'
 import { backendURL } from 'core/env'
 import React, { useEffect } from 'react'
 import { Socket, io } from 'socket.io-client'
-import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 
 export const socket = websocketsEnabled
 	? io({ path: backendURL + '/core/ws', autoConnect: false, transports: ['websocket'] })

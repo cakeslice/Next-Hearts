@@ -1,9 +1,9 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { Button, Card, Divider, Modal, ModalContent } from '@nextui-org/react'
+import { Button, Card, Divider, Modal, ModalContent } from '@heroui/react'
 import { request } from 'core/client/api'
 import { Player } from 'models/player'
 import { Query } from 'pages/api/new-game'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { modalProps } from 'utils/consts'
 import { ModalWrapper } from './ModalContent'
 
@@ -15,7 +15,7 @@ export const useScoreboard = ({
 	players: Player[]
 	gameOver: boolean
 	roomID?: string
-}): [() => JSX.Element, () => void] => {
+}): [() => ReactNode, () => void] => {
 	const [newGameAvailable, setNewGameAvailable] = useState(false)
 	const [sortedPlayers, setSortedPlayers] = useState<Player[]>([])
 
@@ -83,8 +83,8 @@ export const useScoreboard = ({
 								let color = winner
 									? 'text-primary'
 									: loser
-									? 'text-red-500'
-									: 'text-gray-500'
+										? 'text-red-500'
+										: 'text-gray-500'
 
 								let bg: string = ''
 								if (gameOver) {
@@ -97,11 +97,11 @@ export const useScoreboard = ({
 								return (
 									<Card className={bg} key={p.publicID} shadow='lg'>
 										<div className='px-4 py-2 flex justify-between items-center'>
-											<h4
-												className={`truncate font-bold ${color} max-w-[150px]`}
+											<h6
+												className={`truncate font-bold ${color} max-w-[150px] m-0`}
 											>
 												{p.name}
-											</h4>
+											</h6>
 											<h4 className={`font-bold ${color}`}>{p.points}</h4>
 										</div>
 									</Card>

@@ -11,5 +11,9 @@ export const playSound = (sound: Sound) => {
 
 	const s = new Audio(`https://cakeslice-public.s3.fr-par.scw.cloud/open-hearts/${name}.mp3`)
 	s.volume = sound === 'break' ? 0.5 : 1
-	s.play()
+	try {
+		s.play()
+	} catch (e) {
+		console.error(e)
+	}
 }

@@ -1,4 +1,4 @@
-import { NextUIProvider } from '@nextui-org/react'
+import { HeroUIProvider } from "@heroui/react"
 import { defaultTheme, description, forceTheme, preconnectURLs, title } from 'config'
 import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
@@ -7,7 +7,7 @@ import { SocketContext, socket } from './client/socket-io'
 
 export const AppCore = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<NextUIProvider>
+		<HeroUIProvider>
 			<HydrationProvider>
 				<ThemeProvider
 					attribute='class'
@@ -41,6 +41,6 @@ export const AppCore = ({ children }: { children: React.ReactNode }) => {
 					</SocketContext.Provider>
 				</ThemeProvider>
 			</HydrationProvider>
-		</NextUIProvider>
+		</HeroUIProvider>
 	)
 }

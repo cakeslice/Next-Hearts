@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from '@heroicons/react/20/solid'
-import { Switch } from '@nextui-org/react'
+import { Switch } from "@heroui/react"
 import { useDark } from 'core/client/hooks'
 import { useTheme } from 'next-themes'
 import { Client } from 'react-hydration-provider'

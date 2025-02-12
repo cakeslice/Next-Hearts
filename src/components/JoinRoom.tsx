@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './JoinRoom.module.css'
 
+import { Button, Input, Link, Modal, ModalContent, Spacer, Tooltip } from '@heroui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Input, Link, Modal, ModalContent, Spacer, Tooltip } from '@nextui-org/react'
 import clsx from 'clsx'
 import { title } from 'config'
 import { request } from 'core/client/api'
@@ -63,7 +63,7 @@ export const useJoinRoom = (
 	refetch: () => void,
 	roomID?: string,
 	forceClosed?: boolean
-): [() => JSX.Element, () => void] => {
+): [() => ReactNode, () => void] => {
 	const [error, setError] = useState<string>()
 	const [opened, setIsOpened] = useState(false)
 

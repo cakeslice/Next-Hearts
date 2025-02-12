@@ -1,4 +1,4 @@
-import { ModalProps } from '@nextui-org/react'
+import { ModalProps } from "@heroui/react"
 
 export const maxCardsHandRowMobile = 7
 

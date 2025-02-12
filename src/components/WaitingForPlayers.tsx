@@ -1,6 +1,6 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { CheckCircleIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
-import { Button, Card, Divider, Modal, ModalContent } from '@nextui-org/react'
+import { Button, Card, Divider, Modal, ModalContent } from '@heroui/react'
 import { Player } from 'models/player'
 import { useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -26,13 +26,13 @@ export const WaitingForPlayers = ({ players, roomID }: { players: Player[]; room
 						{players.map((p) => (
 							<Card key={p.publicID} shadow='lg'>
 								<div className='px-4 py-2 flex justify-between items-center'>
-									<h4
-										className={`m-w-[150px] truncate font-bold ${
+									<h6
+										className={`m-w-[150px] truncate font-bold m-0 ${
 											p.isLocal ? 'text-primary' : 'text-gray-500'
 										}`}
 									>
 										{p.name}
-									</h4>
+									</h6>
 
 									<CheckCircleIcon className='stroke-[2] w-5 text-primary' />
 								</div>
