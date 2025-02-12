@@ -10,7 +10,7 @@ import {
 	TableColumn,
 	TableHeader,
 	TableRow,
-} from '@nextui-org/react'
+} from "@heroui/react"
 import { PageWrapper } from 'components/PageWrapper'
 import { Cell } from 'components/dashboard/Cell'
 import DashboardWrapper from 'components/dashboard/DashboardWrapper'

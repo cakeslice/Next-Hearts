@@ -1,4 +1,4 @@
-import { Avatar, Chip } from '@nextui-org/react'
+import { Avatar, Chip } from "@heroui/react"
 import { Company, categoryStyle } from 'models/company'
 
 export const Cell = (company: Company, columnKey: string) => {

@@ -1,4 +1,4 @@
-import { ColorScale, ConfigTheme, LayoutTheme, nextui } from '@nextui-org/react'
+import { ColorScale, ConfigTheme, LayoutTheme, heroui } from '@heroui/react'
 import { Config } from 'tailwindcss'
 
 // With @apply: text-pink-500
@@ -72,7 +72,6 @@ export const breakpoints = {
 }
 
 const layout: LayoutTheme = {
-	spacingUnit: 4, // in px
 	fontSize: {
 		tiny: '0.75rem', // text-tiny
 		small: '0.875rem', // text-small
@@ -138,7 +137,7 @@ export const config: Config = {
 	darkMode: ['class'],
 	content: [
 		'./src/**/*.{js,jsx,ts,tsx}',
-		'./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+		'./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
 	],
 	theme: {
 		extend: {
@@ -151,7 +150,7 @@ export const config: Config = {
 	safelist: safelist,
 	plugins: [
 		require('tailwindcss-animate'),
-		nextui({
+		heroui({
 			prefix: 'theme',
 			addCommonColors: true,
 			layout,

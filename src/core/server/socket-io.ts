@@ -1,11 +1,10 @@
+import { DefaultEventsMap, EventNames } from '@socket.io/component-emitter'
 import { NextApiRequestTyped } from 'core/server/types.js'
 import { NextApiRequest } from 'next'
 import { Server, Socket } from 'socket.io'
-import {
-	DefaultEventsMap,
-	EventNames,
-	RemoveAcknowledgements,
-} from 'socket.io/dist/typed-events.js'
+type RemoveAcknowledgements<Events extends DefaultEventsMap> = {
+	[E in keyof Events]: Events[E] extends (...args: any[]) => void ? Events[E] : never
+}
 
 export function socketMessage<ClientEvents extends DefaultEventsMap>(
 	req: NextApiRequest | NextApiRequestTyped<any, any>,

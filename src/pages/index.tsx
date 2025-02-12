@@ -1,4 +1,4 @@
-import { Button, Link, Spacer } from '@nextui-org/react'
+import { Button, Link, Spacer } from "@heroui/react"
 import { PageWrapper } from 'components/PageWrapper'
 import { useApi, useQueryParams } from 'core/client/api'
 import type { NextPage } from 'next'

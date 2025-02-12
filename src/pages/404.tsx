@@ -1,5 +1,5 @@
 import { t } from '@lingui/macro'
-import { Button } from '@nextui-org/react'
+import { Button } from "@heroui/react"
 import { GetStaticPropsContext, GetStaticPropsResult } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'

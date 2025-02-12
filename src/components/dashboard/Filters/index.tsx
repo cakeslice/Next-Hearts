@@ -1,5 +1,5 @@
 import { t } from '@lingui/macro'
-import { Checkbox, Chip } from '@nextui-org/react'
+import { Checkbox, Chip } from "@heroui/react"
 import { useQueryParams } from 'core/client/api'
 import { Input } from 'core/client/components/Input'
 import { allCategories, categoryStyle } from 'models/company'

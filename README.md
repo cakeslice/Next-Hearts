@@ -2,7 +2,7 @@
 
 Includes:
 - Tailwind
-- Next-UI
+- Hero-UI
 - React Hook Form
 - Socket.IO
 - SWR
