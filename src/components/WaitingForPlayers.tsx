@@ -3,7 +3,6 @@ import { CheckCircleIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24
 import { Button, Card, Divider, Modal, ModalContent } from '@heroui/react'
 import { Player } from 'models/player'
 import { useState } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { modalProps } from 'utils/consts'
 import { ModalWrapper } from './ModalContent'
 
@@ -43,22 +42,24 @@ export const WaitingForPlayers = ({ players, roomID }: { players: Player[]; room
 					<Divider />
 
 					<p className='text-gray-500 text-sm font-semibold'>{roomID}</p>
-					<CopyToClipboard
-						text={typeof window !== 'undefined' ? window.location.href : ''}
-						onCopy={() => setCopied(true)}
+
+					<Button
+						onClick={() => {
+							navigator.clipboard.writeText(
+								typeof window !== 'undefined' ? window.location.href : ''
+							)
+							setCopied(true)
+						}}
+						className={copied ? 'text-gray-500' : undefined}
+						color={copied ? 'default' : 'primary'}
 					>
-						<Button
-							className={copied ? 'text-gray-500' : undefined}
-							color={copied ? 'default' : 'primary'}
-						>
-							<div className='flex gap-2 items-center'>
-								{copied ? 'Copied ' : 'Share link'}
-								{copied && (
-									<ClipboardDocumentCheckIcon className='stroke-[2] w-4 text-gray-500' />
-								)}
-							</div>
-						</Button>
-					</CopyToClipboard>
+						<div className='flex gap-2 items-center'>
+							{copied ? 'Copied ' : 'Share link'}
+							{copied && (
+								<ClipboardDocumentCheckIcon className='stroke-[2] w-4 text-gray-500' />
+							)}
+						</div>
+					</Button>
 				</ModalWrapper>
 			</ModalContent>
 		</Modal>

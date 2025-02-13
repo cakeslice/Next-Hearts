@@ -30,12 +30,9 @@ const primitives: Record<string, Exclude<ColorScale, string>> = {
 	subtle: { DEFAULT: 'rgba(0, 50, 175, 0.05)' },
 }
 
-const theme: {
-	light: ConfigTheme['colors']
-	dark: ConfigTheme['colors']
-} = {
+const theme: { light: ConfigTheme['colors']; dark: ConfigTheme['colors'] } = {
 	light: {
-		//background: primitives.neutral[100],
+		background: primitives.neutral[800],
 		focus: 'rgba(130, 201, 30)', //primitives.pink[500],
 		//content1: primitives.neutral[400],
 
@@ -66,10 +63,7 @@ const theme: {
 	},
 }
 
-export const breakpoints = {
-	mobile: { max: '800px' },
-	desktop: { min: '800px' },
-}
+export const breakpoints = { mobile: { max: '800px' }, desktop: { min: '800px' } }
 
 const layout: LayoutTheme = {
 	fontSize: {
@@ -91,12 +85,7 @@ const layout: LayoutTheme = {
 	},
 }
 
-const spacings = {
-	sm: '8px',
-	md: '12px',
-	lg: '16px',
-	xl: '24px',
-}
+const spacings = { sm: '8px', md: '12px', lg: '16px', xl: '24px' }
 
 const animations = {
 	animation: {
@@ -106,10 +95,7 @@ const animations = {
 		down: 'down 0.5s ease-in-out',
 	},
 	keyframes: {
-		fade: {
-			'0%': { opacity: '0%' },
-			'100%': { opacity: '100%' },
-		},
+		fade: { '0%': { opacity: '0%' }, '100%': { opacity: '100%' } },
 		fadedelay: {
 			'0%': { opacity: '0%' },
 			'50%': { opacity: '0%' },
@@ -126,12 +112,7 @@ const animations = {
 	},
 }
 
-const safelist = [
-	{
-		pattern: /bg-(red|green|blue|orange|pink|cyan)-(300|700)/,
-		variants: ['dark'],
-	},
-]
+const safelist = [{ pattern: /bg-(red|green|blue|orange|pink|cyan)-(300|700)/, variants: ['dark'] }]
 
 export const config: Config = {
 	darkMode: 'class',
@@ -140,12 +121,7 @@ export const config: Config = {
 		'./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
 	],
 	theme: {
-		extend: {
-			screens: breakpoints,
-			spacing: spacings,
-			...animations,
-			colors: primitives,
-		},
+		extend: { screens: breakpoints, spacing: spacings, ...animations, colors: primitives },
 	},
 	safelist: safelist,
 	plugins: [
@@ -154,14 +130,7 @@ export const config: Config = {
 			prefix: 'theme',
 			addCommonColors: true,
 			layout,
-			themes: {
-				light: {
-					colors: theme.light,
-				},
-				dark: {
-					colors: theme.dark,
-				},
-			},
+			themes: { light: { colors: theme.light }, dark: { colors: theme.dark } },
 		}),
 	],
 }
